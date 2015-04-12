@@ -1,0 +1,83 @@
+\documentclass[a4paper]{article}
+
+\usepackage[english]{babel}
+\usepackage[utf8x]{inputenc}
+\usepackage{amsmath}
+\usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+
+\title{MAE 275 - Homework 1}
+\author{John Karasinski}
+
+\begin{document}
+\maketitle
+
+
+\section{Problem 1}
+
+\section{Problem 2}
+
+Given the following z-force equation
+\begin{equation*}
+Z = Z_T - Z_g = m (\dot{W} + PV - QU - g\cos(\theta_0)\cos(\phi_0))
+\end{equation*}
+
+\noindent Adding a small disturbance to each term, so that
+\begin{equation*}
+\begin{alignedat}{2}
+Z &= Z_0 & &+ dZ \\
+\dot{W} &= \dot{W_0} & &+ \dot{w} \\
+P &= P_0 & &+ p \\
+V &= V_0 & &+ v \\
+Q &= Q_0 & &+ q \\
+U &= U_0 & &+ u \\
+\end{alignedat}
+\end{equation*}
+
+\begin{equation} \label{eq:expansion}
+\begin{split}
+c(\theta_0 + \theta)c(\phi_0 + \phi) = & s\theta_0  s\phi_0 s\theta s\phi + c\theta_0 c\phi_0  c\theta c\phi - \\
+                                       & c\theta_0  s\phi_0  c\theta s\phi - s\theta_0 c\phi_0 s\theta c\phi
+\end{split}
+\end{equation}
+
+\noindent The disturbances from the steady flight conditions are assumed to be small enough so that the sines and cosines of the disturbance angles are approximately the angles themselves and 1, respectively, and so that the products and squares of the disturbance quantities are negligible compared to the quantities themselves.
+
+
+\noindent Applying this to Equation~\ref{eq:expansion}, we have
+
+\begin{equation}
+\begin{split}
+c(\theta_0 + \theta)c(\phi_0 + \phi) = & c\theta_0 c\phi_0  - \\
+                                       & c\theta_0  s\phi_0 \phi - s\theta_0 c\phi_0 \theta
+\end{split}
+\end{equation}
+
+\noindent Plugging these terms into our z-force equation results in
+\begin{equation*}
+\begin{split}
+Z_0 + dZ = & m [\dot{W_0} + \dot{w} + (P_0 + p) (V_0 + v) - (Q_0 + q) (U_0 + u) - \\ 
+    & g (c\theta_0 c\phi_0  - c\theta_0  s\phi_0 \phi - s\theta_0 c\phi_0 \theta)]
+\end{split}
+\end{equation*}
+
+\noindent Multiplying the terms out results in
+\begin{equation*}
+\begin{split}
+Z_0 + dZ = m[ & \dot{W_0} + \dot{w} + P_0 V_0 + P_0 v + V_0 p + p v \\
+       & - Q_0 U_0 - Q_0 u - U_0 q - q u - \\
+       & g (c\theta_0 c\phi_0  - c\theta_0  s\phi_0 \phi - s\theta_0 c\phi_0 \theta)]
+\end{split}
+\end{equation*}
+
+\noindent Subtracting $Z_0$ from both sides gives
+\begin{equation*}
+dZ = m[\dot{w} + P_0 v + V_0 p + p v - Q_0 u - U_0 q - q u - g (- c\theta_0  s\phi_0 \phi - s\theta_0 c\phi_0 \theta)]
+\end{equation*}
+
+\noindent Simplifying some signs and removing products of disturbance quantities
+\begin{equation*}
+dZ = m[\dot{w} + P_0 v + V_0 p - Q_0 u - U_0 q + g (c\theta_0  s\phi_0) \phi + g (s\theta_0 c\phi_0) \theta]
+\end{equation*}
+
+\end{document}
