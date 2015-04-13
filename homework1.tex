@@ -93,7 +93,7 @@ N = & +\dot{R} I_z
 N =     \dot{R} I_z
       - \dot{P} I_{x z}
       + P Q (I_{y} - I_{x}) 
-      + R Q I_{x z} 
+      + Q R I_{x z} 
 \end{equation*}
 
 \section{Problem 2}
@@ -102,7 +102,7 @@ N =     \dot{R} I_z
 Z = Z_T - Z_g = m (\dot{W} + PV - QU - g\cos(\theta_0)\cos(\phi_0))
 \end{equation*}
 
-\noindent Adding a small disturbance to each term, so that
+\noindent it is possible to linearize this equation using a perturbation method. Adding a small disturbance to each term, so that
 \begin{equation*}
 \begin{alignedat}{2}
 Z &= Z_0 & &+ dZ \\
@@ -110,10 +110,9 @@ Z &= Z_0 & &+ dZ \\
 P &= P_0 & &+ p \\
 V &= V_0 & &+ v \\
 Q &= Q_0 & &+ q \\
-U &= U_0 & &+ u \\
+U &= U_0 & &+ u
 \end{alignedat}
 \end{equation*}
-
 \begin{equation} \label{eq:expansion}
 \begin{split}
 c(\theta_0 + \theta)c(\phi_0 + \phi) = & s\theta_0  s\phi_0 s\theta s\phi + c\theta_0 c\phi_0  c\theta c\phi - \\
@@ -121,17 +120,12 @@ c(\theta_0 + \theta)c(\phi_0 + \phi) = & s\theta_0  s\phi_0 s\theta s\phi + c\th
 \end{split}
 \end{equation}
 
-\noindent The disturbances from the steady flight conditions are assumed to be small enough so that the sines and cosines of the disturbance angles are approximately the angles themselves and 1, respectively, and so that the products and squares of the disturbance quantities are negligible compared to the quantities themselves.
-
+\noindent The disturbances from the steady flight conditions are assumed to be small enough so that the sines and cosines of the disturbance angles are approximately the angles themselves and 1, respectively, and so that the products and squares of the disturbance quantities are negligible compared to the quantities themselves. \\
 
 \noindent Applying this to Equation~\ref{eq:expansion}, we have
-
-\begin{equation}
-\begin{split}
-c(\theta_0 + \theta)c(\phi_0 + \phi) = & c\theta_0 c\phi_0  - \\
-                                       & c\theta_0  s\phi_0 \phi - s\theta_0 c\phi_0 \theta
-\end{split}
-\end{equation}
+\begin{equation*}
+c(\theta_0 + \theta)c(\phi_0 + \phi) = c\theta_0 c\phi_0  - c\theta_0  s\phi_0 \phi - s\theta_0 c\phi_0 \theta
+\end{equation*}
 
 \noindent Plugging these terms into our z-force equation results in
 \begin{equation*}
@@ -157,7 +151,7 @@ dZ = m[\dot{w} + P_0 v + V_0 p + p v - Q_0 u - U_0 q - q u - g (- c\theta_0  s\p
 
 \noindent Simplifying some signs and removing products of disturbance quantities
 \begin{equation*}
-dZ = m[\dot{w} + P_0 v + V_0 p - Q_0 u - U_0 q + g (c\theta_0  s\phi_0) \phi + g (s\theta_0 c\phi_0) \theta]
+dZ = m[\dot{w} + V_0 p + P_0 v - U_0 q - Q_0 u + (g c\theta_0  s\phi_0) \phi + (g s\theta_0 c\phi_0) \theta]
 \end{equation*}
 
 \end{document}
