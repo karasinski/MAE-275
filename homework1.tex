@@ -6,6 +6,10 @@
 \usepackage{graphicx}
 \usepackage[colorinlistoftodos]{todonotes}
 
+\newcommand{\ihat}{\boldsymbol{\hat{\textbf{i}}}}
+\newcommand{\jhat}{\boldsymbol{\hat{\textbf{j}}}}
+\newcommand{\khat}{\boldsymbol{\hat{\textbf{k}}}}
+
 \title{MAE 275 - Homework 1}
 \author{John Karasinski}
 
@@ -14,10 +18,86 @@
 
 
 \section{Problem 1}
+Beginning with the integral equation from the handwritten notes
+\begin{equation*}
+\overline{M}_0 + \overline{M}_{T_0} + \overline{M}_{{IR}_0} = 
+\iiint\limits_{sys} \overline{r}^2 \overline{\dot{\Omega}} dm - 
+\iiint\limits_{sys} (\overline{r} \cdot \overline{\dot{\Omega}}) \overline{r} dm -
+\iiint\limits_{sys} (\overline{\dot{\Omega}} \cdot \overline{r}) (\overline{r} \times \overline{\dot{\Omega}} ) dm
+\end{equation*}
+
+\noindent and defining
+\begin{equation*}
+\begin{split}
+\overline{r}            &= x \ihat + y \jhat + z \khat \\
+\overline{\Omega}       &= P \ihat + Q \jhat + R \khat \\
+\overline{\dot{\Omega}} &= \dot{P} \ihat + \dot{Q} \jhat + \dot{R} \khat
+\end{split}
+\end{equation*}
+
+\noindent one can find the z components of the moment equation. Inserting these definitions and ignoring the x and y components
+\begin{equation*}
+\begin{split}
+N \khat =  & + \dot{R} \khat \iiint\limits_{sys} (x^2 + y^2 + z^2) dm \\
+           &            - \iiint\limits_{sys} x \dot{P} z \khat dm  
+                        - \iiint\limits_{sys} y \dot{Q} z \khat dm  
+                        - \iiint\limits_{sys} z \dot{R} z \khat dm \\
+           &            + \iiint\limits_{sys} (P x + Q y + R z)(Q x - P y) \khat dm \\
+\end{split}
+\end{equation*}
+
+
+\noindent Simplifying and distributing terms
+\begin{equation*}
+\begin{split}
+N =  & +\dot{R} \iiint\limits_{sys} (x^2 + y^2 + z^2) dm
+            - \dot{P} \iiint\limits_{sys} x z dm
+            - \dot{Q} \iiint\limits_{sys} y z dm
+            - \dot{R} \iiint\limits_{sys} z^2 dm \\
+          & + \iiint\limits_{sys} (P Q x^2 - P^2 x y + Q^2 x y - P Q y^2 + R Q x z - P R y z) dm \\
+\end{split}
+\end{equation*}
+
+\noindent Adding and subtracting $ P Q \iiint\limits_{sys} z^2 dm $ to the RHS
+\begin{equation*}
+\begin{split}
+N =  & + \dot{R} \iiint\limits_{sys} (x^2 + y^2) dm
+            - \dot{P} \iiint\limits_{sys} x z dm
+            - \dot{Q} \iiint\limits_{sys} y z dm \\
+     &      +     P Q \iiint\limits_{sys} (x^2 + z^2) dm 
+            -     P^2 \iiint\limits_{sys} x y dm 
+            +     Q^2 \iiint\limits_{sys} x y dm \\
+     &      -     P Q \iiint\limits_{sys} (y^2 + z^2) dm 
+            +     R Q \iiint\limits_{sys} x z dm 
+            -     P R \iiint\limits_{sys} y z dm \\
+\end{split}
+\end{equation*}
+
+\noindent Recognizing geometric terms
+\begin{equation*}
+\begin{split}
+N = & +\dot{R} I_z
+    - \dot{P} I_{x z}
+    - \dot{Q} I_{y z} \\
+    & + P Q I_{y} 
+      - P^2 I_{x y} 
+      + Q^2 I_{x y} \\
+    & - P Q I_{x} 
+      + R Q I_{x z} 
+      - P R I_{y z} \\
+\end{split}
+\end{equation*}
+
+\noindent Finally, assuming an XZ plane of symmetry ($I_{yz} = I_{xy} = 0$)
+\begin{equation*}
+N =     \dot{R} I_z
+      - \dot{P} I_{x z}
+      + P Q (I_{y} - I_{x}) 
+      + R Q I_{x z} 
+\end{equation*}
 
 \section{Problem 2}
-
-Given the following z-force equation
+\noindent Given the following z-force equation
 \begin{equation*}
 Z = Z_T - Z_g = m (\dot{W} + PV - QU - g\cos(\theta_0)\cos(\phi_0))
 \end{equation*}
