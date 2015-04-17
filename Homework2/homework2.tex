@@ -2,8 +2,20 @@
 \usepackage[margin=1in]{geometry}
 \usepackage{amsmath,amsthm,amssymb}
 
-\newcommand{\N}{\mathbb{N}}
-\newcommand{\Z}{\mathbb{Z}}
+\usepackage[T1]{fontenc}
+\usepackage{bigfoot} % to allow verbatim in footnote
+\usepackage[numbered,framed]{matlab-prettifier}
+\usepackage{filecontents}
+
+\let\ph\mlplaceholder % shorter macro
+\lstMakeShortInline"
+
+\lstset{
+  style              = Matlab-editor,
+  basicstyle         = \mlttfamily,
+  escapechar         = ",
+  mlshowsectionrules = true,
+}
 
 \title{MAE 275 - Homework 2}
 \author{John Karasinski}
@@ -87,7 +99,7 @@ A =
 \end{bmatrix}\\
 \end{equation*}
 
-\noindent Plugging in the data for the F-89 aircraft (Flight Condition 8901) on pages A3-A5 in the Appendix of "Aircraft Dynamics and Automatic Control" yields
+\noindent Plugging in the appropriate data
 
 \begin{equation*}
 A =
@@ -100,9 +112,94 @@ A =
 \end{bmatrix}
 \end{equation*}
 
+\newpage
 \section{Problem 2}
+\subsection{Longitudinal}
+\noindent The following MATLAB command is called to identify the characteristc roots and eigenvector elements
+\begin{filecontents*}{code.m}
+[v, d] = eig(A);
+\end{filecontents*}
+\lstinputlisting[]{code.m}
 
+\noindent resulting in two complex pairs
 
+\begin{equation*}
+\begin{split}
+d_1 = X \pm i Y \\
+d_2 = X \pm i Y \\
+\end{split}
+\end{equation*}
+
+\noindent and their associated eigenvectors
+
+\begin{equation*}
+\begin{split}
+v_1 = [1, 2, 3, 4, 5] \\
+v_2 = [1, 2, 3, 4, 5] \\
+\end{split}
+\end{equation*}
+
+\noindent Before exciting these modes, the rest of the state space system must be defined. The longitudinal A matrix from above is used, along with B, C, and D matrices defined as
+\begin{filecontents*}{code.m}
+B = [0; 0; 0; 0; 0];
+
+C = [[1, 0, 0, 0, 0];
+     [0, 1/u_0, 0, 0, 0];
+     [0, 0, 1, 0, 0];
+     [0, 0, 0, 1, 0];
+     [0, 0, 0, 0, 1]];
+
+D = [0; 0; 0; 0; 0];
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\noindent finally, the initial state can be defined and the initial command can be run by
+\begin{filecontents*}{code.m}
+i1 = real(v(:,1));
+initial(A, B, C, D, i1, 5)
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\noindent and results in the following figures
+
+\subsection{Lateral}
+\noindent The lateral eigenvalues are identified as
+
+\begin{equation*}
+\begin{split}
+d_1 = X \pm i Y \\
+\ldots \\
+d_n = X \pm i Y \\
+\end{split}
+\end{equation*}
+
+\noindent and their associated eigenvectors
+
+\begin{equation*}
+\begin{split}
+v_1 = [1, 2, 3, 4, 5] \\
+\ldots \\
+v_n = [1, 2, 3, 4, 5] \\
+\end{split}
+\end{equation*}
+
+\noindent Before exciting these modes, the rest of the state space system must be defined. The lateral A matrix from above is used, along with B, C, and D matrices defined as
+\begin{filecontents*}{code.m}
+B = [0; 0; 0; 0; 0];
+
+C = [[1/u_0, 0, 0, 0, 0];
+     [0, 1, 0, 0, 0];
+     [0, 0, 1, 0, 0];
+     [0, 0, 0, 1, 0];
+     [0, 0, 0, 0, 1]];
+
+D = [0; 0; 0; 0; 0];
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\noindent Exciting each of these modes with the appropriate eigenvector results in
+
+\newpage
 \section{Problem 3}
 \section{Problem 4}
 
