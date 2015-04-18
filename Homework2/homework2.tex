@@ -26,20 +26,25 @@
 \section{Problem 1}
 We can define the longitudinal and lateral linearized aircraft equations of motion. The longitudinal equations can be expressed as
 
-\begin{equation*}
+\begin{equation}
 \begin{split}
-\Delta \dot{u} = &X_u \Delta u + X_w \Delta w - g\cos \theta_0 \Delta \theta \\
+\Delta \dot{u} = &X_u \Delta u + X_w \Delta w - g\cos \theta_0 \Delta \theta + \sum\limits_{i=1}^n X_{\delta_i} \Delta \delta_i \\
 \Delta \dot{w} = &\dfrac{Z_u}{1-Z_{\dot{w}}} \Delta u +
                   \dfrac{Z_w}{1-Z_{\dot{w}}} \Delta w +
                   \dfrac{Z_q + u_0}{1-Z_{\dot{w}}} \Delta q -
-                  \dfrac{g\sin \theta_0}{1-Z_{\dot{w}}} \Delta \theta \\
+                  \dfrac{g\sin \theta_0}{1-Z_{\dot{w}}} \Delta \theta +
+                  \dfrac{1}{1-Z_{\dot{w}}} \sum\limits_{i=1}^n Z_{\delta_i} \Delta \delta_i \\
 \Delta \dot{q} = &\left[ M_u + \dfrac{M_{\dot{w}} Z_u}{1-Z_{\dot{w}}} \Delta u  \right] +
                   \left[ M_w + \dfrac{M_{\dot{w}} Z_w}{1-Z_{\dot{w}}} \Delta w  \right] +
-                  \left[ M_q + \dfrac{M_{\dot{w}} (Z_q + u_0)}{1-Z_{\dot{w}}} \Delta q  \right] -\left[ \dfrac{M_{\dot{w}} g\sin \theta_0}{1-Z_{\dot{w}}} \Delta \theta  \right] \\
+                  \left[ M_q + \dfrac{M_{\dot{w}} (Z_q + u_0)}{1-Z_{\dot{w}}} \Delta q  \right] \\
+                 & - \left[ \dfrac{M_{\dot{w}} g\sin \theta_0}{1-Z_{\dot{w}}} \Delta \theta  \right]
+                   + \dfrac{M_{\dot{w}}}{1-Z_{\dot{w}}} \sum\limits_{i=1}^n Z_{\delta_i} \Delta \delta_i
+                   + \sum\limits_{i=1}^n M_{\delta_i} \Delta \delta_i \\
 \Delta \dot{\theta} = &\Delta q \\
 \Delta \dot{h} = &-\Delta w + u_0 \Delta \theta \\
 \end{split}
-\end{equation*}
+\label{long}
+\end{equation}
 
 \noindent or in state space form, with state variables $\Delta u, \Delta w, \Delta q, \Delta \theta, \Delta h $, as
 
@@ -47,15 +52,11 @@ We can define the longitudinal and lateral linearized aircraft equations of moti
 A =
 \begin{bmatrix}
     X_u & X_w & 0 & -g \cos(\theta_0) & 0 \\
-    \\
     \dfrac{Z_u}{1-Z_{\dot{w}}} & \dfrac{Z_w}{1-Z_{\dot{w}}} & \dfrac{Z_q + u_0}{1-Z_{\dot{w}}} & \dfrac{g\sin \theta_0}{1-Z_{\dot{w}}} & 0 \\
-    \\
     M_u + \dfrac{M_{\dot{w}} Z_u}{1-Z_{\dot{w}}} & M_w + \dfrac{M_{\dot{w}} Z_w}{1-Z_{\dot{w}}} & M_q + \dfrac{M_{\dot{w}} (Z_q + u_0)}{1-Z_{\dot{w}}} & -\dfrac{M_{\dot{w}} g\sin \theta_0}{1-Z_{\dot{w}}} & 0 \\
-    \\
     0 & 0 & 1 & 0 & 0 \\
-    \\
     0 & -1 & 0 & u_0 & 0
-\end{bmatrix}\\
+\end{bmatrix}
 \end{equation*}
 
 \noindent Plugging in the data for the F-89 aircraft (Flight Condition 8901) on pages A3-A5 in the Appendix of "Aircraft Dynamics and Automatic Control" yields
@@ -71,16 +72,16 @@ A =
 \end{equation*}
 
 \noindent The lateral equations can be expressed as
-\begin{equation*}
+\begin{equation}
 \begin{split}
-\Delta \dot{v} = & Y_v\Delta v + Y_p\Delta p + \left[ Y_r - u_0 \right]\Delta r + g\cos\theta_0\Delta \varphi \\
-\Delta \dot{p} = & L_v^\prime \Delta v + L_p^\prime \Delta p + L_r^\prime \Delta r\\
-\Delta \dot{r} = & N_v^\prime \Delta v + N_p^\prime \Delta p + N_r^\prime \Delta r\\
+\Delta \dot{v} = & Y_v\Delta v + Y_p\Delta p + \left[ Y_r - u_0 \right]\Delta r + g\cos\theta_0\Delta \varphi + \sum\limits_{i=1}^n Y_{\delta_i} \Delta \delta_i \\
+\Delta \dot{p} = & L_v^\prime \Delta v + L_p^\prime \Delta p + L_r^\prime \Delta r + \sum\limits_{i=1}^n L_{\delta_i}^\prime \Delta \delta_i \\
+\Delta \dot{r} = & N_v^\prime \Delta v + N_p^\prime \Delta p + N_r^\prime \Delta r + \sum\limits_{i=1}^n N_{\delta_i}^\prime \Delta \delta_i \\
 \Delta \dot{\varphi} = &\Delta p + r\tan\theta_0\Delta r\\
 \Delta \dot{\psi} = &r\sec\theta_0\Delta r\\
 \end{split}
-\end{equation*}
-
+\label{lat}
+\end{equation}
 
 \noindent or in state space form, with state variables $\Delta v, \Delta p, \Delta r, \Delta \varphi \mbox{(roll)}, \Delta \psi $, as
 
@@ -88,13 +89,9 @@ A =
 A =
 \begin{bmatrix}
     Y_v & Y_p & \left[ Y_r-u_0 \right] & g\cos \theta_0 & 0 \\
-    \\
     L_v^\prime & L_p^\prime & L_r^\prime & 0 & 0 \\
-    \\
     N_v^\prime & N_p^\prime & N_r^\prime & 0 & 0 \\
-    \\
     0 & 1 & \tan \theta_0 & 0 & 0 \\
-    \\
     0 & 0 & \sec \theta_0 & 0 & 0
 \end{bmatrix}\\
 \end{equation*}
@@ -201,6 +198,88 @@ D = [0; 0; 0; 0; 0];
 
 \newpage
 \section{Problem 3}
+\subsection{Longitudinal}
+A control input to the elevators, $\Delta \delta_e$ can be found by solving Equation~\ref{long}, resulting in a B matrix,
+
+\begin{equation*}
+B =
+\begin{bmatrix}
+   X_{\delta_e} \\
+   \dfrac{Z_{\delta_e}}{1-Z_{\dot{w}}} \\
+   \dfrac{M_{\dot{w}} Z_{\delta_e}}{1-Z_{\dot{w}} + M_{\delta_e}} \\
+   0 \\
+   0 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+   1 \\
+   2 \\
+   3 \\
+   0 \\
+   0 \\
+\end{bmatrix}
+\end{equation*}
+
+\noindent After defining the C and D matrices, we can find the resulting transfer function with the following commands
+\begin{filecontents*}{code.m}
+C=[0 0 0 1 0];
+D = 0;
+
+[n, d] = ss2tf(A, B, C, D);
+minreal(zpk(tf(n,d)))
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\noindent which results in
+\begin{filecontents*}{code.m}
+some shit
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\noindent which compare quite well with the values found on page A-5,
+
+\begin{filecontents*}{code.m}
+some other shit
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\subsection{Lateral}
+\noindent A control input to the aileron, $\Delta \varphi_e$ can be found by solving Equation~\ref{lat}, resulting in a B matrix,
+
+\begin{equation*}
+B =
+\begin{bmatrix}
+   Y_{\delta_a} \\
+   L_{\delta_a}^\prime \\
+   N_{\delta_a}^\prime \\
+   0 \\
+   0 \\
+\end{bmatrix}
+=
+\begin{bmatrix}
+   1 \\
+   2 \\
+   3 \\
+   0 \\
+   0 \\
+\end{bmatrix}
+\end{equation*}
+
+\noindent Defining the C and D matrices the same as above, we can again find the resulting transfer function
+
+\begin{filecontents*}{code.m}
+some shit
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\noindent which compare quite well with the values found on page A-5,
+
+\begin{filecontents*}{code.m}
+some other shit
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\newpage
 \section{Problem 4}
 
 \end{document}
