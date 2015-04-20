@@ -71,7 +71,7 @@ step(long, 1000)
 pause
 
 %% Find Transfer Functions
-B = B/5;
+B = B/(5/57.3);
 C=[0 0 0 1 0];
 D = 0;
 [n, d] = ss2tf(A, B, C, D);
@@ -151,7 +151,7 @@ lat = ss(A, B, C, D);
 step(lat, 100) % unstable
 
 %%  Find Transfer Function
-B = B/5;
+B = B/(5/57.3);
 C=[0 0 0 1 0];
 D = 0;
 [n, d] = ss2tf(A, B, C, D);
