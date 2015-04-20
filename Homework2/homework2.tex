@@ -6,6 +6,7 @@
 \usepackage{bigfoot} % to allow verbatim in footnote
 \usepackage[numbered,framed]{matlab-prettifier}
 \usepackage{filecontents}
+\usepackage{graphicx}
 
 \let\ph\mlplaceholder % shorter macro
 \lstMakeShortInline"
@@ -25,7 +26,6 @@
 
 \section{Problem 1}
 We can define the longitudinal and lateral linearized aircraft equations of motion. The longitudinal equations can be expressed as
-
 \begin{equation}
 \begin{split}
 \Delta \dot{u} = &X_u \Delta u + X_w \Delta w - g\cos \theta_0 \Delta \theta + \sum\limits_{i=1}^n X_{\delta_i} \Delta \delta_i \\
@@ -47,7 +47,6 @@ We can define the longitudinal and lateral linearized aircraft equations of moti
 \end{equation}
 
 \noindent or in state space form, with state variables $\Delta u, \Delta w, \Delta q, \Delta \theta, \Delta h $, as
-
 \begin{equation*}
 A =
 \begin{bmatrix}
@@ -84,7 +83,6 @@ A =
 \end{equation}
 
 \noindent or in state space form, with state variables $\Delta v, \Delta p, \Delta r, \Delta \varphi, \Delta \psi $, as
-
 \begin{equation*}
 A =
 \begin{bmatrix}
@@ -97,7 +95,6 @@ A =
 \end{equation*}
 
 \noindent Plugging in the appropriate data
-
 \begin{equation*}
 A =
 \begin{bmatrix}
@@ -112,27 +109,33 @@ A =
 \newpage
 \section{Problem 2}
 \subsection{Longitudinal}
-\noindent The following MATLAB command is called to identify the characteristc roots and eigenvector elements
+\noindent The following MATLAB command is called to identify the characteristic roots and eigenvector elements
 \begin{filecontents*}{code.m}
 [v, d] = eig(A);
 \end{filecontents*}
 \lstinputlisting[]{code.m}
 
-\noindent resulting in two complex pairs
-
+\noindent resulting in two complex pairs of eigenvalues
 \begin{equation*}
 \begin{split}
-d_1 = X \pm i Y \\
-d_2 = X \pm i Y \\
+d_1 =& -2.1043e+0 \pm i 3.7184e+0 \mbox{ (Short-Period Mode)} \\
+d_2 =& -4.5114e-3 \pm i 6.2756e-2 \mbox{ (Phugoid Mode)}\\
 \end{split}
 \end{equation*}
 
 \noindent and their associated eigenvectors
-
 \begin{equation*}
 \begin{split}
-v_1 = [1, 2, 3, 4, 5] \\
-v_2 = [1, 2, 3, 4, 5] \\
+v_1 = [-7.3823e-3 & \mp i 6.3366e-3, \\
+       -9.9688e-1 &,  \\
+        1.0175e-3 & \mp i 5.6172e-3, \\
+       -1.2615e-3 & \pm i 4.4029e-4, \\
+        4.0253e-2 & \mp i 6.6963e-2] \\
+v_2 = [ 4.8201e-2 & \pm i 7.1255e-3, \\
+       -4.8242e-4 & \mp i 8.0362e-5,  \\
+        5.9403e-6 & \pm i 8.1160e-7,  \\
+        6.0964e-6 & \mp i 9.5094e-5, \\
+       -9.9881e-1 &].
 \end{split}
 \end{equation*}
 
@@ -150,7 +153,7 @@ D = [0; 0; 0; 0; 0];
 \end{filecontents*}
 \lstinputlisting[]{code.m}
 
-\noindent finally, the initial state can be defined and the initial command can be run by
+\noindent Finally, the initial state can be defined and the initial command can be run by
 \begin{filecontents*}{code.m}
 i1 = real(v(:,1));
 initial(A, B, C, D, i1, 5)
@@ -158,25 +161,51 @@ initial(A, B, C, D, i1, 5)
 \lstinputlisting[]{code.m}
 
 \noindent and results in the following figures
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.85\textwidth]{figures/LongI2.pdf}
+\caption{Initial response to eigenvector $v_1$}
+\label{}
+\end{center}
+\end{figure}
 
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.85\textwidth]{figures/LongI4.pdf}
+\caption{Initial response to eigenvector $v_2$}
+\label{}
+\end{center}
+\end{figure}
+
+\clearpage
 \subsection{Lateral}
 \noindent The lateral eigenvalues are identified as
-
 \begin{equation*}
 \begin{split}
-d_1 = X \pm i Y \\
-\ldots \\
-d_n = X \pm i Y \\
+d_1 = -1.7808e+0 & \mbox{ (Roll Convergence Mode)}\\
+d_2 = +1.3590e-3 & \mbox{ (Slightly Unstable Spiral Mode)}\\
+d_3 = -4.6373e-2 &\pm i 1.8779e+0 \mbox{ (Dutch Roll Mode)} \\
 \end{split}
 \end{equation*}
 
 \noindent and their associated eigenvectors
-
 \begin{equation*}
 \begin{split}
-v_1 = [1, 2, 3, 4, 5] \\
-\ldots \\
-v_n = [1, 2, 3, 4, 5] \\
+v_1 = [-9.9531e-1 &, \\
+       -8.4376e-2 &, \\
+       -2.4891e-4 &, \\
+       +4.7381e-2 &, \\
+       +1.3977e-4 &] \\
+v_2 = [-2.4525e-2 &, \\
+       -3.7916e-5 &, \\
+       -1.3581e-3 &, \\
+       -2.7900e-2 &, \\
+       -9.9931e-1 &] \\
+v_3 =  +9.9999e-1 &, \\
+       -1.9651e-3 & \pm i 1.9409e-3, \\
+       -3.6905e-6 & \mp i 2.7955e-3, \\
+       +1.0587e-3 & \pm i 1.0203e-3, \\
+       -1.4877e-3 & \pm i 3.8701e-5] \\
 \end{split}
 \end{equation*}
 
@@ -195,12 +224,34 @@ D = [0; 0; 0; 0; 0];
 \lstinputlisting[]{code.m}
 
 \noindent Exciting each of these modes with the appropriate eigenvector results in
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.85\textwidth]{figures/LatI2.pdf}
+\caption{Initial response to eigenvector $v_1$}
+\label{}
+\end{center}
+\end{figure}
 
-\newpage
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.85\textwidth]{figures/LatI3.pdf}
+\caption{Initial response to eigenvector $v_2$}
+\label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=0.85\textwidth]{figures/LatI4.pdf}
+\caption{Initial response to eigenvector $v_3$}
+\label{}
+\end{center}
+\end{figure}
+
+\clearpage
 \section{Problem 3}
 \subsection{Longitudinal}
-A control input to the elevators, $\Delta \delta_e$ can be found by solving Equation~\ref{long}, resulting in a B matrix,
-
+A control input to the elevators, $\Delta \delta_e$, can be found by solving Equation~\ref{long}, resulting in a B matrix,
 \begin{equation*}
 B =
 \begin{bmatrix}
@@ -212,9 +263,9 @@ B =
 \end{bmatrix}
 =
 \begin{bmatrix}
-   1 \\
-   2 \\
-   3 \\
+   0 \\
+   -6.9800e+1 \\
+   -2.6009e+1 \\
    0 \\
    0 \\
 \end{bmatrix}
@@ -232,20 +283,31 @@ minreal(zpk(tf(n,d)))
 
 \noindent which results in
 \begin{filecontents*}{code.m}
-some shit
+             -26.009 (s+1.372) (s+0.009813)
+  ---------------------------------------------------
+  (s^2 + 0.009023s + 0.003959) (s^2 + 4.209s + 18.25)
 \end{filecontents*}
 \lstinputlisting[]{code.m}
+\noindent yielding
+\begin{equation*}
+\begin{split}
+A_{\theta} =& -26.009 \\
+1/T_{\theta_1} =& +0.009813 \\
+1/T_{\theta_2} =& +1.372,
+\end{split}
+\end{equation*}
 
 \noindent which compare quite well with the values found on page A-5,
-
-\begin{filecontents*}{code.m}
-some other shit
-\end{filecontents*}
-\lstinputlisting[]{code.m}
+\begin{equation*}
+\begin{split}
+A_{\theta} =& -26.1 \\
+1/T_{\theta_1} =& +0.0098 \\
+1/T_{\theta_2} =& +1.372
+\end{split}
+\end{equation*}
 
 \subsection{Lateral}
-\noindent A control input to the aileron, $\Delta \varphi_e$ can be found by solving Equation~\ref{lat}, resulting in a B matrix,
-
+\noindent A control input to the aileron, $\Delta \delta_a$, can be found by solving Equation~\ref{lat}, resulting in a B matrix,
 \begin{equation*}
 B =
 \begin{bmatrix}
@@ -257,35 +319,67 @@ B =
 \end{bmatrix}
 =
 \begin{bmatrix}
-   1 \\
-   2 \\
-   3 \\
+   0 \\
+   2.7300e+01 \\
+   3.9500e-01 \\
    0 \\
    0 \\
 \end{bmatrix}
 \end{equation*}
 
-\noindent Defining the C and D matrices the same as above, we can again find the resulting transfer function
-
+\noindent Defining the C and D matrices the same as above, we can find the resulting transfer function
 \begin{filecontents*}{code.m}
-some shit
+           27.3 (s^2 + 0.1747s + 3.453)
+  -----------------------------------------------
+  (s+1.781) (s-0.001359) (s^2 + 0.09275s + 3.529)
 \end{filecontents*}
 \lstinputlisting[]{code.m}
-
+\noindent yielding
+\begin{equation*}
+\begin{split}
+A_{\theta} =& +27.3 \\
+\zeta_{\varphi} =& +4.7007e-02\\
+\omega_{\varphi} =& -1.8582e+00,
+\end{split}
+\end{equation*}
 \noindent which compare quite well with the values found on page A-5,
-
-\begin{filecontents*}{code.m}
-some other shit
-\end{filecontents*}
-\lstinputlisting[]{code.m}
+\begin{equation*}
+\begin{split}
+A_{\theta} =& +27.3 \\
+\zeta_{\varphi} =& +0.047\\
+\omega_{\varphi} =& -1.86
+\end{split}
+\end{equation*}
 
 \newpage
 \section{Problem 4}
-The response to a step control input of $\Delta \delta_e = 5/57.3$ rad can be for $\Delta \theta$ and $\Delta h$. Two responses were seen, a phugoid
+The response to a step control input of $\Delta \delta_e = 5/57.3$ rad can be for $\Delta \theta$ and $\Delta h$. Two responses were seen, a phugoid,
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/LongStepLong.pdf}
+\caption{Phugoid response to step input}
+\label{}
+\end{center}
+\end{figure}
 
-\noindent and a short-period response
+\noindent and a short-period response which manifests as a small oscillation in $\Delta \theta$
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/LongStepShort.pdf}
+\caption{Short-period response to step input}
+\label{}
+\end{center}
+\end{figure}
 
-\noindent Similarly, the response to a step control input of $\Delta \delta_a = 5/57.3$ rad can be for $\Delta \varphi$ and $\Delta r$
+\clearpage
+\noindent Similarly, the response to a step control input of $\Delta \delta_a = 5/57.3$ rad can be seen for $\Delta \varphi$ and $\Delta r$
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=0.7\textwidth]{figures/LatStep.pdf}
+\caption{Step response to a step input in $\Delta \delta_a$}
+\label{}
+\end{center}
+\end{figure}
 
 \newpage
 \appendix
@@ -303,7 +397,6 @@ The response to a step control input of $\Delta \delta_e = 5/57.3$ rad can be fo
 \end{equation*}
   \caption{Basic Simulation Parameters}
 \end{figure}
-
 
 \begin{figure}
 \begin{equation*}
@@ -338,13 +431,13 @@ The response to a step control input of $\Delta \delta_e = 5/57.3$ rad can be fo
   L_r^\prime &= 0.172 \\
   L_{\delta_a}^\prime &= 27.3 \\
   L_{\beta}^\prime &= -4.55 \\
-  L_v^\prime &= \dfrac{L_{\beta}^\prime}{u_0} \\
+  L_v^\prime &= \dfrac{L_{\beta}^\prime}{u_0} =-0.0069 \\
   \\
   N_p^\prime &= -0.0654 \\
   N_r^\prime &= -0.0893 \\
   N_{\delta_a}^\prime &= 0.395 \\
   N_{\beta}^\prime &= 3.38 \\
-  N_v^\prime &= \dfrac{N_{\beta}^\prime}{u_0} \\
+  N_v^\prime &= \dfrac{N_{\beta}^\prime}{u_0} = 0.0051 \\
   \\
   % Assumed to be zero
   Y_p &= 0 \\
@@ -353,7 +446,5 @@ The response to a step control input of $\Delta \delta_e = 5/57.3$ rad can be fo
 \end{equation*}
   \caption{Longitudinal and Lateral Simulation Parameters}
 \end{figure}
-
-
 
 \end{document}
