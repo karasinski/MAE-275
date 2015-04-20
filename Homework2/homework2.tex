@@ -63,11 +63,11 @@ A =
 \begin{equation*}
 A =
 \begin{bmatrix}
-    1 & 2 & 3 & 4 & 5 \\
-    1 & 2 & 3 & 4 & 5 \\
-    1 & 2 & 3 & 4 & 5 \\
-    1 & 2 & 3 & 4 & 5 \\
-    1 & 2 & 3 & 4 & 5 \\
+  -9.7000e-03  & +1.6000e-03  &           0  & -3.2200e+01 &           0 \\
+  -9.5500e-02  & -1.4300e+00  & +6.6000e+02  &           0 &           0 \\
+  +1.2415e-04  & -2.1641e-02  & -2.7780e+00  &           0 &           0 \\
+            0  &           0  & +1.0000e+00  &           0 &           0 \\
+            0  & -1.0000e+00  &           0  & +6.6000e+02 &           0 \\
 \end{bmatrix}
 \end{equation*}
 
@@ -83,7 +83,7 @@ A =
 \label{lat}
 \end{equation}
 
-\noindent or in state space form, with state variables $\Delta v, \Delta p, \Delta r, \Delta \varphi \mbox{(roll)}, \Delta \psi $, as
+\noindent or in state space form, with state variables $\Delta v, \Delta p, \Delta r, \Delta \varphi, \Delta \psi $, as
 
 \begin{equation*}
 A =
@@ -101,11 +101,11 @@ A =
 \begin{equation*}
 A =
 \begin{bmatrix}
-    1 & 2 & 3 & 4 & 5 \\
-    1 & 2 & 3 & 4 & 5 \\
-    1 & 2 & 3 & 4 & 5 \\
-    1 & 2 & 3 & 4 & 5 \\
-    1 & 2 & 3 & 4 & 5 \\
+  -8.2900e-02  &           0  & -6.6000e+02  & +3.2200e+01 &            0 \\
+  -6.8939e-03  & -1.7000e+00  & +1.7200e-01  &           0 &            0 \\
+  +5.1212e-03  & -6.5400e-02  & -8.9300e-02  &           0 &            0 \\
+            0  & +1.0000e+00  &           0  &           0 &            0 \\
+            0  &           0  & +1.0000e+00  &           0 &            0 \\
 \end{bmatrix}
 \end{equation*}
 
@@ -286,6 +286,74 @@ The response to a step control input of $\Delta \delta_e = 5/57.3$ rad can be fo
 \noindent and a short-period response
 
 \noindent Similarly, the response to a step control input of $\Delta \delta_a = 5/57.3$ rad can be for $\Delta \varphi$ and $\Delta r$
+
+\newpage
+\appendix
+
+\begin{figure}
+\begin{equation*}
+  \begin{split}
+  % Basic Simulation Parameters
+  h &= 20000 \\
+  M &= 0.638 \\
+  g &= 32.2 \\
+  \theta_0 &= 0 \\
+  u_0 &= 660 \\
+  \end{split}
+\end{equation*}
+  \caption{Basic Simulation Parameters}
+\end{figure}
+
+
+\begin{figure}
+\begin{equation*}
+  \begin{split}
+  % %% Longitudinal
+  X_u &= -0.0097 \\
+  X_w &= 0.0016 \\
+  X_{\delta_e} &= 0 \\
+  \\
+  Z_u &= -0.0955 \\
+  Z_{\dot{w}} &= 0 \\
+  Z_w &= -1.43 \\
+  Z_{\delta_e} &= -69.8 \\
+  \\
+  M_u &= 0 \\
+  M_{\dot{w}} &= -0.0013 \\
+  M_w &= -0.0235 \\
+  M_q &= -1.92 \\
+  M_{\delta_e} &= -26.1 \\
+  \\
+  % Assumed to be zero}
+  Z_q &= 0 \\
+  \end{split}
+\quad\quad
+\quad\quad
+  \begin{split}
+  %% Lateral
+  Y_v &= -0.0829 \\
+  Y_{\delta_a} &= 0 \\
+  \\
+  L_p^\prime &= -1.70 \\
+  L_r^\prime &= 0.172 \\
+  L_{\delta_a}^\prime &= 27.3 \\
+  L_{\beta}^\prime &= -4.55 \\
+  L_v^\prime &= \dfrac{L_{\beta}^\prime}{u_0} \\
+  \\
+  N_p^\prime &= -0.0654 \\
+  N_r^\prime &= -0.0893 \\
+  N_{\delta_a}^\prime &= 0.395 \\
+  N_{\beta}^\prime &= 3.38 \\
+  N_v^\prime &= \dfrac{N_{\beta}^\prime}{u_0} \\
+  \\
+  % Assumed to be zero
+  Y_p &= 0 \\
+  Y_r &= 0 \\
+  \end{split}
+\end{equation*}
+  \caption{Longitudinal and Lateral Simulation Parameters}
+\end{figure}
+
 
 
 \end{document}
