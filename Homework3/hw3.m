@@ -32,7 +32,11 @@ A = [[X_u, X_w, 0, -g*cos(theta_0), 0];
      [0, 0, 1, 0, 0];
      [0, -1, 0, u_0, 0]];
 
-B = [0; 0; 0; 0; 0];
+B = [X_d_e;
+     Z_d_e/(1-Z_wdot);
+     M_wdot*Z_d_e/(1-Z_wdot) + M_d_e;
+     0;
+     0];
 
 C = eye(5);
 
@@ -46,65 +50,42 @@ i2 = real(v(:, 2));
 i5 = real(v(:, 5));
 
 % disp(i1)
-initial(A, B, C, D, i1, 5)
-pause
+% initial(A, B, C, D, i1, 5)
+% pause
 % disp(i2)
-initial(A, B, C, D, i2, 50) % unstable
-pause
+% initial(A, B, C, D, i2, 50) % unstable
+% pause
 % disp(i5)
-initial(A, B, C, D, i5, 50)
-pause
+% initial(A, B, C, D, i5, 50)
+% pause
 
 %% Part 2 - Find Transfer Functions
-B = [X_d_e;
-     Z_d_e/(1-Z_wdot);
-     M_wdot*Z_d_e/(1-Z_wdot) + M_d_e;
-     0;
-     0];
-
-C0 = [[0, 0, 1, 0, 0];
-     [0, 0, 0, 1, 0]];
-D0 = [0; 0];
-
-[n, d] = ss2tf(A, B, C0, D0);
+[n, d] = ss2tf(A, B, C, D);
 % disp('The transfer function for q is')
-minreal(zpk(tf(n(1, :),d))) % q
+minreal(zpk(tf(n(3, :),d))) % q
 % disp('The transfer function for \theta is')
-minreal(zpk(tf(n(2, :),d))) % theta
+minreal(zpk(tf(n(4, :),d))) % theta
 
 %% Part 3 - Design controller
-% Bode
-C1=[0 0 0 1 0];
-D1=[0];
+C0 = [0 0 1 1 0];
+D0 = 0;
 
-[num,den]=ss2tf(A,B,C1,D1);
+[num,den]=ss2tf(A,B,C0,D0);
 minreal(zpk(tf(num,den)))
 
 span=logspace(-2,2,1000);
 bode(num,den, span)
-grid on
 pause
-
-% Nyquist
-C2=[0 0 1 1 0];
-D2=[0];
-
-[num,den]=ss2tf(A,B,C2,D2);
-
-rlocus(num,den)
-pause
-
-K=1.47; %determined from root locus
 
 %% Part 4 - Simulink Simulation
 sim('long',20)
 
 subplot(2,1,1)
-plot(tout,u.signals.values,tout,w.signals.values,':',tout,h.signals.values,'--')
-legend('u','w', 'h')
+plot(t,u, t,w,':', t,q,'-.', t,h,'--')
+legend('u', 'w', 'q', 'h')
 subplot(2,1,2)
-plot(tout,q.signals.values,tout,theta.signals.values,':',tout,K*(theta.signals.values+q.signals.values),'--')
-legend('q','\theta','\delta_e')
+plot(t,theta,':', t,theta_c,'--')
+legend('\theta', '\delta_e')
 
 
 % [3 6 3]
