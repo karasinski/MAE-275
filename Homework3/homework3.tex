@@ -7,6 +7,7 @@
 \usepackage[numbered,framed]{matlab-prettifier}
 \usepackage{filecontents}
 \usepackage{graphicx}
+\usepackage[normalem]{ulem}
 
 \let\ph\mlplaceholder % shorter macro
 \lstMakeShortInline"
@@ -24,7 +25,7 @@
 \begin{document}
 \maketitle
 
-\section{Problem 1}
+\section{Defining the System}
 The longitudinal linearized aircraft equations of motion can be expressed in state space form, with state variables $\Delta u, \Delta w, \Delta q, \Delta \theta, \Delta h $, as
 % \begin{equation}
 % \begin{split}
@@ -92,30 +93,36 @@ B =
 \begin{equation*}
 C =
 \begin{bmatrix}
-      1 & 0 & 0 & 0 & 0 \\
-      0 & 1 & 0 & 0 & 0 \\
-      0 & 0 & 1 & 0 & 0 \\
-      0 & 0 & 0 & 1 & 0 \\
-      0 & 0 & 0 & 0 & 1 \\
- % 0 &    0 &    1 &    1 &    0 \\
+      % 1 & 0 & 0 & 0 & 0 \\
+      % 0 & 1 & 0 & 0 & 0 \\
+      % 0 & 0 & 1 & 0 & 0 \\
+      % 0 & 0 & 0 & 1 & 0 \\
+      % 0 & 0 & 0 & 0 & 1 \\
+ 0 &    0 &    1 &    1 &    0 \\
 \end{bmatrix}
 \end{equation*}
 
 \begin{equation*}
 D =
 \begin{bmatrix}
-      0 \\
-      0 \\
-      0 \\
-      0 \\
-      0 \\
- % 0 \\
+      % 0 \\
+      % 0 \\
+      % 0 \\
+      % 0 \\
+      % 0 \\
+ 0 \\
 \end{bmatrix}
 \end{equation*}
+
+\clearpage
+\section{System Properties}
 
 \noindent We can find the resulting transfer functions, $\dfrac{q}{\delta e} (s)$ and $\dfrac{\theta}{\delta e} (s)$, with the following commands \\
 
 \begin{filecontents*}{code.m}
+C = eye(5);
+D = [0; 0; 0; 0; 0];
+
 [n, d] = ss2tf(A, B, C, D);
 minreal(zpk(tf(n(3, :),d))) % q
 minreal(zpk(tf(n(4, :),d))) % theta
@@ -138,7 +145,6 @@ and
 \end{filecontents*}
 \lstinputlisting[]{code.m}
 
-\section{Problem 2}
 \noindent The following MATLAB command is called to identify the characteristic roots and eigenvector elements
 \begin{filecontents*}{code.m}
 [v, d] = eig(A);
@@ -175,14 +181,105 @@ v_3 = [  +9.9953e-1, & \\
 \end{split}
 \end{equation*}
 
- 
-\section{Problem 2}
-% \subsection{Longitudinal}
-% \noindent The following MATLAB command is called to identify the characteristic roots and eigenvector elements
-% \begin{filecontents*}{code.m}
-% [v, d] = eig(A);
-% \end{filecontents*}
-% \lstinputlisting[]{code.m}
+\clearpage
+\section{Designing the Controller}
 
+The transfer function of the system, $VZ-4$, was identified as
+\begin{filecontents*}{code.m}
+            (s+1) (s+0.137)
+  -----------------------------------
+  (s+0.8223) (s^2 - 0.6401s + 0.5326)
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+A controller, $G_C$ was designed as
+\begin{filecontents*}{code.m}
+  10000 (s+0.8223) (s+0.7)^3
+  ---------------------------
+  s^2 (s+500) (s+1) (s+0.137)
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\noindent This controller was determined using loop-shaping priciples such that:
+
+The closed-loop system is stable
+
+The $G_C$ has more poles than zeros
+
+The closed-loop bandwidth (-3dB criterion) is at least 5 rad/sec (23.5 rad/sec)
+
+\sout{The gain margin is at least 6dB} (-24 dB)
+
+The phase margin is at least 40 deg (80 deg)
+
+There is zero steady-state error to a step input $\theta_C$
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/open_loop_bode}
+\caption{Open Loop Bode Diagram}
+% \label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/compensated_open_loop_bode}
+\caption{Compensated Open Loop Bode Diagram}
+% \label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/compensated_close_loop_bode}
+\caption{Compensated Closed Loop Bode Diagram}
+% \label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/nyquist}
+\caption{Nyquist Diagram}
+% \label{}
+\end{center}
+\end{figure}
+
+\clearpage
+\section{Simulink Diagram}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/simulink}
+\caption{Simulink Diagram}
+% \label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/sensor}
+% \includegraphics[width=1\textwidth]{figures/theta}
+\caption{Step Response}
+% \label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/uwq}
+\caption{Step Response}
+% \label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/h}
+\caption{Step Response}
+% \label{}
+\end{center}
+\end{figure}
 
 \end{document}

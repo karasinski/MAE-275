@@ -71,22 +71,30 @@ C0 = [0 0 1 1 0];
 D0 = 0;
 
 [num,den]=ss2tf(A,B,C0,D0);
-minreal(zpk(tf(num,den)))
+plant = tf(num, den);
+minreal(zpk(plant))
 
 span=logspace(-2,2,1000);
 bode(num,den, span)
 pause
 
+s = tf('s');
+% comp = 40 * (s+1) / (s*(s+500));
+comp = 40000 * (s+1) / (s*(s+500));
+
 %% Part 4 - Simulink Simulation
 sim('long',20)
 
-subplot(2,1,1)
-plot(t,u, t,w,':', t,q,'-.', t,h,'--')
-legend('u', 'w', 'q', 'h')
-subplot(2,1,2)
+% subplot(3,1,1)
+plot(t,u, t,w,':', t,q,'-.')
+legend('u', 'w', 'q')
+pause
+% subplot(3,1,2)
+plot(t,h,'--')
+legend('h')
+pause
+% subplot(3,1,3)
 plot(t,theta,':', t,theta_c,'--')
-legend('\theta', '\delta_e')
+legend('\theta', '\theta_c')
+pause
 
-
-% [3 6 3]
-% [1 0 0]
