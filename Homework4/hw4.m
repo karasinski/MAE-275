@@ -25,59 +25,60 @@ M_d_T = 0.0001309;
 M_d_e = -19.42;
 
 %% Build A, B, C, D matrices
-A = [[X_u, X_w, 0, -g*cos(theta_0)];
-     [Z_u/(1-Z_wdot), Z_w/(1-Z_wdot), (Z_q + u_0)/(1-Z_wdot), -g*sin(theta_0)/(1-Z_wdot)];
-     [M_u + (M_wdot * Z_u)/(1-Z_wdot), M_w + (M_wdot * Z_w)/(1-Z_wdot), M_q + (M_wdot*(Z_q+u_0))/(1-Z_wdot), -M_wdot*g*sin(theta_0)/(1-Z_wdot)];
-     [0, 0, 1, 0]];
+A = [[X_u, X_w, 0, -g*cos(theta_0), 0];
+     [Z_u/(1-Z_wdot), Z_w/(1-Z_wdot), (Z_q + u_0)/(1-Z_wdot), -g*sin(theta_0)/(1-Z_wdot), 0];
+     [M_u + (M_wdot * Z_u)/(1-Z_wdot), M_w + (M_wdot * Z_w)/(1-Z_wdot), M_q + (M_wdot*(Z_q+u_0))/(1-Z_wdot), -M_wdot*g*sin(theta_0)/(1-Z_wdot), 0];
+     [0, 0, 1, 0, 0]
+     [0, -1, 0, u_0, 0]];
 
-B = [-(X_u)                             -(X_w)                             X_d_e;
-     -(Z_u/(1-Z_wdot))                  -(Z_w/(1-Z_wdot))                  Z_d_e/(1-Z_wdot);
-     -(M_u + (M_wdot * Z_u)/(1-Z_wdot)) -(M_w + (M_wdot * Z_w)/(1-Z_wdot)) M_wdot*Z_d_e/(1-Z_wdot) + M_d_e;
-      0                                  0                                 0];
+B = [-(X_u)                             -(X_w)                             -(X_q)                             X_d_e;
+     -(Z_u/(1-Z_wdot))                  -(Z_w/(1-Z_wdot))                  -(Z_q/(1-Z_wdot))                  Z_d_e/(1-Z_wdot);
+     -(M_u + (M_wdot * Z_u)/(1-Z_wdot)) -(M_w + (M_wdot * Z_w)/(1-Z_wdot)) -(M_q + (M_wdot * Z_q)/(1-Z_wdot)) M_wdot*Z_d_e/(1-Z_wdot) + M_d_e;
+      0                                  0                                  0                                 0;
+      0                                  0                                  0                                 0];
 
-C = [1 0     0 0;
-     0 1/u_0 0 0;
-     0 Z_w   0 0;
-     0 0     0 1];
+C = [1 0     0 0 0;
+     0 1/u_0 0 0 0;
+     0 Z_w   0 0 0;
+     0 0     0 1 0;
+     0 0     0 0 1];
 
-D = [0 0 0;
-     0 0 0;
-     0 0 Z_d_e;
-     0 0 0];
+D = [0 0 0 0;
+     0 0 0 0;
+     0 0 0 Z_d_e;
+     0 0 0 0;
+     0 0 0 0];
 
 sim('homework4', 15)
 
 subplot(5,1,1)
 plot(t,57.3 * theta)
-ylabel('\theta')
+ylabel('\theta (deg)')
 
 subplot(5,1,2)
 plot(t,57.3 * alpha)
-ylabel('\alpha')
+ylabel('\alpha (deg)')
 
 subplot(5,1,3)
 plot(t,h)
-ylabel('h')
+ylabel('h (ft)')
 
 subplot(5,1,4)
 plot(t,u)
-ylabel('u')
+ylabel('u (ft/s)')
 
 subplot(5,1,5)
-plot(t,a_z)
-ylabel('a_z')
+plot(t,a_z/g)
+ylabel('a_z (g)')
 xlabel('Time (s)')
 pause
 
-subplot(3,1,1)
-plot(t, u_gust)
-ylabel('u_{gust}')
+subplot(2,1,1)
+plot(t, u_gust, t, w_gust, '--', t, q_gust, '-.')
+legend('u_{gust}', 'w_{gust}', 'q_{gust}')
+ylabel('Turbulence Field (ft/s)')
 
-subplot(3,1,2)
-plot(t, w_gust)
-ylabel('w_{gust}')
-
-subplot(3,1,3)
+subplot(2,1,2)
 plot(t,57.3 * delta_e)
-ylabel('\delta_e')
+ylabel('\delta_e (deg)')
 xlabel('Time (s)')
