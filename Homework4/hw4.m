@@ -44,7 +44,7 @@ B = [ -(X_u + a * X_wdot * Z_u)   -(X_w + a * X_wdot * Z_w)   -(X_q + a * X_wdot
 C = [1              0        0 0 0;
      0              1/u_0    0 0 0;
      % a * Z_u        a * Z_w  0 0 0;
-     0            Z_w        0 0 0;
+     0            Z_w/u_0        0 0 0;
      0              0        0 1 0;
      0              0        0 0 1];
 
