@@ -53,7 +53,7 @@ The longitudinal linearized aircraft equations of motion can be expressed in sta
 A =
 \begin{bmatrix}
     X_u & X_w & 0 & -g \cos(\theta_0) & 0 \\
-    \dfrac{Z_u}{1-Z_{\dot{w}}} & \dfrac{Z_w}{1-Z_{\dot{w}}} & \dfrac{Z_q + u_0}{1-Z_{\dot{w}}} & \dfrac{g\sin \theta_0}{1-Z_{\dot{w}}} & 0 \\
+    \dfrac{Z_u}{1-Z_{\dot{w}}} & \dfrac{Z_w}{1-Z_{\dot{w}}} & \dfrac{Z_q + u_0}{1-Z_{\dot{w}}} & -\dfrac{g\sin \theta_0}{1-Z_{\dot{w}}} & 0 \\
     M_u + \dfrac{M_{\dot{w}} Z_u}{1-Z_{\dot{w}}} & M_w + \dfrac{M_{\dot{w}} Z_w}{1-Z_{\dot{w}}} & M_q + \dfrac{M_{\dot{w}} (Z_q + u_0)}{1-Z_{\dot{w}}} & -\dfrac{M_{\dot{w}} g\sin \theta_0}{1-Z_{\dot{w}}} & 0 \\
     0 & 0 & 1 & 0 & 0 \\
     0 & -1 & 0 & u_0 & 0
@@ -83,7 +83,8 @@ C =
     1 & 0     & 0 & 0 & 0\\
     0 & \dfrac{1}{u_0} & 0 & 0 & 0\\
     % \dfrac{Z_u}{1-Z_{\dot{w}}} & \dfrac{Z_w}{1-Z_{\dot{w}}} & 0 & 0 & 0\\
-    0 & \dfrac{Z_w}{u_0} & 0 & 0 & 0\\
+    % 0 & \dfrac{Z_w}{u_0} & 0 & 0 & 0\\
+    \dfrac{Z_u}{1-Z_{\dot{w}}} & \dfrac{Z_w}{1-Z_{\dot{w}}} & \dfrac{Z_q + u_0}{1-Z_{\dot{w}}} & -\dfrac{g\sin \theta_0}{1-Z_{\dot{w}}} & 0 \\
     0 & 0     & 0 & 1 & 0\\
     0 & 0     & 0 & 0 & 1\\
 \end{bmatrix}
@@ -105,7 +106,7 @@ D =
 \begin{equation*}
 \begin{split}
 \alpha & \approx \dfrac{\Delta w}{u_0}\\
-   a_z & = \dot{w} - u_0 q \approx Z_{\alpha} \alpha + Z_{\delta_e} \delta_e
+   a_z & = \dot{w} - u_0 q \approx \dot{w} + Z_{\delta_e} \delta_e
 \end{split}
 \end{equation*}
 
@@ -138,7 +139,8 @@ C =
            1 &          0 & 0 & 0 & 0 \\
            0 & +1.5773e-3 & 0 & 0 & 0 \\
   % -1.0104e-1 & -8.1668e-1 & 0 & 0 & 0 \\
-           0 & -1.2902e-3 & 0 & 0 & 0 \\
+  -1.0104e-1 & -8.1668e-1 & 6.3298e+2 & 0 & 0 \\
+           % 0 & -1.2902e-3 & 0 & 0 & 0 \\
            0 &          0 & 0 & 1 & 0 \\
            0 &          0 & 0 & 0 & 1 \\
 \end{bmatrix}
@@ -156,21 +158,9 @@ D =
 \end{bmatrix}
 \end{equation*}
 
-% \clearpage
-% \section{System Properties}
-
-% \begin{filecontents*}{code.m}
-%                (s+0.137)
-%   -----------------------------------
-%   (s+0.8223) (s^2 - 0.6401s + 0.5326)
- 
-% \end{filecontents*}
-% \lstinputlisting[]{code.m}
-
-
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=1\textwidth]{figures/simulink}
+\includegraphics[width=.9\textwidth]{figures/simulink}
 \caption{Simulink Diagram}
 % \label{}
 \end{center}
@@ -178,7 +168,61 @@ D =
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=1\textwidth]{figures/output angles}
+\includegraphics[width=.9\textwidth]{figures/gusts}
+% \caption{Simulink Diagram}
+% \label{}
+\end{center}
+\end{figure}
+
+% \begin{figure}[h]
+% \begin{center}
+% \includegraphics[width=1\textwidth]{figures/output angles}
+% % \caption{Simulink Diagram}
+% % \label{}
+% \end{center}
+% \end{figure}
+
+% \begin{figure}[h]
+% \begin{center}
+% \includegraphics[width=1\textwidth]{figures/output x}
+% % \caption{Simulink Diagram}
+% % \label{}
+% \end{center}
+% \end{figure}
+
+% \begin{figure}[h]
+% \begin{center}
+% \includegraphics[width=1\textwidth]{figures/input}
+% % \caption{Simulink Diagram}
+% % \label{}
+% \end{center}
+% \end{figure}
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/theta}
+% \caption{Simulink Diagram}
+% \label{}
+\end{center}
+\end{figure}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/alpha}
+% \caption{Simulink Diagram}
+% \label{}
+\end{center}
+\end{figure}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/h}
+% \caption{Simulink Diagram}
+% \label{}
+\end{center}
+\end{figure}
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/u}
 % \caption{Simulink Diagram}
 % \label{}
 \end{center}
@@ -186,7 +230,7 @@ D =
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=1\textwidth]{figures/output x}
+\includegraphics[width=1\textwidth]{figures/a_z}
 % \caption{Simulink Diagram}
 % \label{}
 \end{center}
@@ -194,11 +238,10 @@ D =
 
 \begin{figure}[h]
 \begin{center}
-\includegraphics[width=1\textwidth]{figures/inputs}
+\includegraphics[width=1\textwidth]{figures/delta_e}
 % \caption{Simulink Diagram}
 % \label{}
 \end{center}
 \end{figure}
-
 
 \end{document}
