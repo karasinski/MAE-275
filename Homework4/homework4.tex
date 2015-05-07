@@ -26,7 +26,7 @@
 \maketitle
 
 \section{Defining the System}
-The longitudinal linearized aircraft equations of motion can be expressed in state space form, with state variables $\Delta u, \Delta w, \Delta q, \Delta \theta$, as
+The longitudinal linearized aircraft equations of motion can be expressed in state space form, with state variables $\Delta u, \Delta w, \Delta q, \Delta \theta, \Delta h$, as
 % \begin{equation}
 % \begin{split}
 % \Delta \dot{u} = &X_u \Delta u + X_w \Delta w - g\cos \theta_0 \Delta \theta + \sum\limits_{i=1}^n X_{\delta_i} \Delta \delta_i \\
@@ -49,10 +49,11 @@ The longitudinal linearized aircraft equations of motion can be expressed in sta
 \begin{equation*}
 A =
 \begin{bmatrix}
-    X_u & X_w & 0 & -g \cos(\theta_0) \\
-    \dfrac{Z_u}{1-Z_{\dot{w}}} & \dfrac{Z_w}{1-Z_{\dot{w}}} & \dfrac{Z_q + u_0}{1-Z_{\dot{w}}} & \dfrac{g\sin \theta_0}{1-Z_{\dot{w}}} \\
-    M_u + \dfrac{M_{\dot{w}} Z_u}{1-Z_{\dot{w}}} & M_w + \dfrac{M_{\dot{w}} Z_w}{1-Z_{\dot{w}}} & M_q + \dfrac{M_{\dot{w}} (Z_q + u_0)}{1-Z_{\dot{w}}} & -\dfrac{M_{\dot{w}} g\sin \theta_0}{1-Z_{\dot{w}}} \\
-    0 & 0 & 1 & 0 \\
+    X_u & X_w & 0 & -g \cos(\theta_0) & 0 \\
+    \dfrac{Z_u}{1-Z_{\dot{w}}} & \dfrac{Z_w}{1-Z_{\dot{w}}} & \dfrac{Z_q + u_0}{1-Z_{\dot{w}}} & \dfrac{g\sin \theta_0}{1-Z_{\dot{w}}} & 0 \\
+    M_u + \dfrac{M_{\dot{w}} Z_u}{1-Z_{\dot{w}}} & M_w + \dfrac{M_{\dot{w}} Z_w}{1-Z_{\dot{w}}} & M_q + \dfrac{M_{\dot{w}} (Z_q + u_0)}{1-Z_{\dot{w}}} & -\dfrac{M_{\dot{w}} g\sin \theta_0}{1-Z_{\dot{w}}} & 0 \\
+    0 & 0 & 1 & 0 & 0 \\
+    0 & -1 & 0 & u_0 & 0
 \end{bmatrix}
 \end{equation*}
 
@@ -60,80 +61,88 @@ A =
 \begin{equation*}
 B =
 \begin{bmatrix}
-   -(X_u)                                          & -(X_w)                                          & X_{\delta_e} \\
-   -(\dfrac{Z_u}{1-Z_{\dot{w}}})                   & -(\dfrac{Z_w}{1-Z_{\dot{w}}})                   & \dfrac{Z_{\delta_e}}{1-Z_{\dot{w}}} \\
-   -(M_u + \dfrac{M_{\dot{w}} Z_u}{1-Z_{\dot{w}}}) & -(M_w + \dfrac{M_{\dot{w}} Z_w}{1-Z_{\dot{w}}}) & \dfrac{M_{\dot{w}} Z_{\delta_e}}{1-Z_{\dot{w}}} + M_{\delta_e} \\
-    0                                              &  0                                              & 0 \\
+   -X_u & -X_w & -X_q + X_{\dot{w}} u_0 & X_{\delta_e} \\
+   -Z_u & -Z_w & -Z_q + Z_{\dot{w}} u_0 & \dfrac{Z_{\delta_e}}{1-Z_{\dot{w}}} \\
+   -M_u & -M_w & -M_q + M_{\dot{w}} u_0 & \dfrac{M_{\dot{w}} Z_{\delta_e}}{1-Z_{\dot{w}}} + M_{\delta_e} \\
+    0   &  0   &  0   & 0 \\
+    0   &  0   &  0   & 0 \\
 \end{bmatrix}
 \end{equation*}
 
 \begin{equation*}
 C =
 \begin{bmatrix}
-    1 & 0     & 0 & 0 \\
-    0 & \dfrac{1}{u_0} & 0 & 0 \\
-    0 & Z_w   & 0 & 0 \\
-    0 & 0     & 0 & 1 \\
+    1 & 0     & 0 & 0 & 0\\
+    0 & \dfrac{1}{u_0} & 0 & 0 & 0\\
+    % 0 & Z_w   & 0 & 0 & 0\\
+    \dfrac{Z_u}{1-Z_{\dot{w}}} & \dfrac{Z_w}{1-Z_{\dot{w}}} & 0 & 0 & 0\\
+    0 & 0     & 0 & 1 & 0\\
+    0 & 0     & 0 & 0 & 1\\
 \end{bmatrix}
 \end{equation*}
 
 \begin{equation*}
 D =
 \begin{bmatrix}
-    0 & 0 & 0     \\
-    0 & 0 & 0     \\
-    0 & 0 & Z_{\delta_e} \\
-    0 & 0 & 0     \\
+    0 & 0 & 0 & 0    \\
+    0 & 0 & 0 & 0    \\
+    % 0 & 0 & 0 & Z_{\delta_e} \\
+    \dfrac{-Z_u}{1-Z_{\dot{w}}} & \dfrac{-Z_w}{1-Z_{\dot{w}}} & 0 & 0 \\
+    0 & 0 & 0 & 0     \\
+    0 & 0 & 0 & 0     \\
 \end{bmatrix}
 \end{equation*}
 
-\noindent Where it is assumed that
-\begin{equation*}
-\begin{split}
-\alpha \approx & \dfrac{\Delta w}{u_0}\\
-   a_z \approx & \Delta q Z_w
-\end{split}
-\end{equation*}
+% \noindent Where it is assumed that
+% \begin{equation*}
+% \begin{split}
+% \alpha & \approx \dfrac{\Delta w}{u_0}\\
+%    a_z & = \dot{w} - u_0 q \approx Z_{\alpha} \alpha + Z_{\delta_e} \delta_e
+% \end{split}
+% \end{equation*}
 
-\newpage
 \noindent Plugging in the data for the A4-D aircraft in Flight Condition 5 from Appendix A of "Aircraft Dynamics and Automatic Control" yields
 \begin{equation*}
 A =
 \begin{bmatrix}
-  -1.2660e-2 & -5.8800e-3 &          0 & -3.2200e+1 \\
-  -1.0104e-1 & -8.1668e-1 & +6.3298e+2 &          0 \\
-  -3.5082e-4 & -1.9546e-2 & -1.4219e+0 &          0 \\
-          0 &           0 & 1 &          0 \\
+  -1.2660e-2 & -5.8800e-3 &          0 & -3.2200e+1  &          0 \\
+  -1.0104e-1 & -8.1668e-1 & +6.3298e+2 &          0  &          0 \\
+  -3.4382e-4 & -1.9546e-2 & -1.4219e+0 &          0  &          0 \\
+           0 &          0 &          1 &          0  &          0 \\
+           0 &         -1 &          0 & +6.3400e+2  &          0 \\
 \end{bmatrix}
 \end{equation*}
 
 \begin{equation*}
 B =
 \begin{bmatrix}
-  +1.2660e-2 & +5.8800e-3 &          0 \\
-  +1.0104e-1 & +8.1668e-1 & -5.6828e+1 \\
-  +3.4382e-4 & +1.9546e-2 & -1.9388e+1 \\
-           0 &          0 &          0 \\
++1.2660e-2 & +5.8800e-3 &          0 &          0 \\
++1.0120e-1 & +8.1800e-1 & -1.0245e+0 & -5.6828e+1 \\
++4.0000e-4 & +2.0000e-2 & +7.1750e-1 & -1.9388e+1 \\
+         0 &          0 &          0 &          0 \\
+         0 &          0 &          0 &          0 \\
 \end{bmatrix}
 \end{equation*}
 
 \begin{equation*}
 C =
 \begin{bmatrix}
-   1 &           0 & 0 & 0 \\
-   0 & +1.5773e-03 & 0 & 0 \\
-   0 & -8.1800e-01 & 0 & 0 \\
-   0 &           0 & 0 & 1 \\
+           1 &          0 & 0 & 0 & 0 \\
+           0 & +1.5773e-3 & 0 & 0 & 0 \\
+  -1.0104e-1 & -8.1668e-1 & 0 & 0 & 0 \\
+           0 &          0 & 0 & 1 & 0 \\
+           0 &          0 & 0 & 0 & 1 \\
 \end{bmatrix}
 \end{equation*}
 
 \begin{equation*}
 D =
 \begin{bmatrix}
-   0 & 0 &           0 \\
-   0 & 0 &           0 \\
-   0 & 0 & -5.6920e+01 \\
-   0 & 0 &           0 \\
+           0 &         0 & 0 & 0 \\
+           0 &         0 & 0 & 0 \\
+   1.0104e-1 & 8.1668e-1 & 0 & 0 \\
+           0 &         0 & 0 & 0 \\
+           0 &         0 & 0 & 0 \\
 \end{bmatrix}
 \end{equation*}
 
@@ -147,5 +156,15 @@ D =
  
 % \end{filecontents*}
 % \lstinputlisting[]{code.m}
+
+
+\begin{figure}[h]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/simulink}
+\caption{Simulink Diagram}
+% \label{}
+\end{center}
+\end{figure}
+
 
 \end{document}

@@ -2,10 +2,11 @@
 g = 32.2;
 theta_0 = 0;
 u_0 = 634;
-h = 15000;
+h_0 = 15000;
 
 X_u = -0.01266;
 X_w = -0.00588;
+X_wdot = 0;          % Assumed to be zero
 X_q = 0.;            % Assumed to be zero
 X_d_T = 0.00414;
 X_d_e = 0.;
@@ -26,28 +27,30 @@ M_d_e = -19.42;
 
 %% Build A, B, C, D matrices
 A = [[X_u, X_w, 0, -g*cos(theta_0), 0];
-     [Z_u/(1-Z_wdot), Z_w/(1-Z_wdot), (Z_q + u_0)/(1-Z_wdot), -g*sin(theta_0)/(1-Z_wdot), 0];
+     [Z_u/(1-Z_wdot), Z_w/(1-Z_wdot), (Z_q + u_0)/(1-Z_wdot), g*sin(theta_0)/(1-Z_wdot), 0];
      [M_u + (M_wdot * Z_u)/(1-Z_wdot), M_w + (M_wdot * Z_w)/(1-Z_wdot), M_q + (M_wdot*(Z_q+u_0))/(1-Z_wdot), -M_wdot*g*sin(theta_0)/(1-Z_wdot), 0];
-     [0, 0, 1, 0, 0]
+     [0,  0, 1,   0, 0]
      [0, -1, 0, u_0, 0]];
 
-B = [-(X_u)                             -(X_w)                             -(X_q)                             X_d_e;
-     -(Z_u/(1-Z_wdot))                  -(Z_w/(1-Z_wdot))                  -(Z_q/(1-Z_wdot))                  Z_d_e/(1-Z_wdot);
-     -(M_u + (M_wdot * Z_u)/(1-Z_wdot)) -(M_w + (M_wdot * Z_w)/(1-Z_wdot)) -(M_q + (M_wdot * Z_q)/(1-Z_wdot)) M_wdot*Z_d_e/(1-Z_wdot) + M_d_e;
-      0                                  0                                  0                                 0;
-      0                                  0                                  0                                 0];
+B = [-X_u -X_w -X_q + X_wdot * u_0 X_d_e;
+     -Z_u -Z_w -Z_q + Z_wdot * u_0 Z_d_e/(1-Z_wdot);
+     -M_u -M_w -M_q + M_wdot * u_0 M_wdot*Z_d_e/(1-Z_wdot) + M_d_e;
+      0    0    0                  0;
+      0    0    0                  0];
 
-C = [1 0     0 0 0;
-     0 1/u_0 0 0 0;
-     0 Z_w   0 0 0;
-     0 0     0 1 0;
-     0 0     0 0 1];
+C = [1              0              0 0 0;
+     0              1/u_0          0 0 0;
+     Z_u/(1-Z_wdot) Z_w/(1-Z_wdot) 0 0 0;
+     % 0 Z_w   0 0 0;
+     0              0              0 1 0;
+     0              0              0 0 1];
 
-D = [0 0 0 0;
-     0 0 0 0;
-     0 0 0 Z_d_e;
-     0 0 0 0;
-     0 0 0 0];
+D = [ 0               0              0 0;
+      0               0              0 0;
+     -Z_u/(1-Z_wdot) -Z_w/(1-Z_wdot) 0 0;
+      % 0 0 0 Z_d_e;
+      0               0              0 0;
+      0               0              0 0];
 
 sim('homework4', 15)
 
@@ -60,11 +63,11 @@ plot(t,57.3 * alpha)
 ylabel('\alpha (deg)')
 
 subplot(5,1,3)
-plot(t,h)
+plot(t,h_0 + h)
 ylabel('h (ft)')
 
 subplot(5,1,4)
-plot(t,u)
+plot(t,u_0 + u)
 ylabel('u (ft/s)')
 
 subplot(5,1,5)
