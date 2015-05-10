@@ -115,9 +115,8 @@ D =
 \end{bmatrix}
 \end{equation*}
 
-
-\clearpage
-\section{Designing the Controller}
+% \clearpage
+\section{Designing the Controllers}
 Two controllers were designed. The first controller, $Gc_{\phi}$ was designed as
 \begin{filecontents*}{code.m}
   -360.94 (s+1.413) (s+0.07616)
@@ -127,6 +126,13 @@ Two controllers were designed. The first controller, $Gc_{\phi}$ was designed as
 \lstinputlisting[]{code.m}
 
 \noindent This controller was determined using loop-shaping principles such that it had a roll-attitude bandwidth of $\sim$3 rad/sec (-3dB criterion) and a minimum overshoot in step response. \\
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.425\textheight]{figures/first_controller_simulink}
+\caption{Simulink Diagram for First Controller Design}
+\end{center}
+\end{figure}
 
 \noindent The second controller, $Gc_r$ was designed as
 \begin{filecontents*}{code.m}
@@ -138,6 +144,13 @@ Two controllers were designed. The first controller, $Gc_{\phi}$ was designed as
 
 \noindent This controller was determined using loop-shaping principles such that it had a bandwidth of $\sim$1 rad/sec (-3dB criterion), giving a factor of approximately three between r-loop and $\phi$-loop bandwidths. \\
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.425\textheight]{figures/second_controller_simulink}
+\caption{Simulink Diagram for Second Controller Design}
+\end{center}
+\end{figure}
+
 \noindent Additionally, both controllers have:
 
 more poles than zeros (are strictly proper compensators)
@@ -147,32 +160,77 @@ gain margins of at least 12dB
 phase margins of at least 40 deg
 
 \clearpage
-
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=1\textwidth]{figures/phi_delta_a_closed_loop}
-\caption{$\phi$-loop bandwidth of 3 rad/s (3dB criterion)}
-% \label{}
+\includegraphics[height=.435\textheight]{figures/phi_delta_a_open_loop}
+\caption{$\phi$-loop open-loop Bode with G.M. of 34 dB and P.M. of 49 deg}
 \end{center}
 \end{figure}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[width=1\textwidth]{figures/r_delta_r_closed_loop}
-\caption{r-loop bandwidth of 1 rad/s (3dB criterion)}
-% \label{}
+\includegraphics[height=.375\textheight]{figures/phi_delta_a_closed_loop}
+\caption{$\phi$-loop closed-loop Bode with bandwidth of 3 rad/s (3dB criterion)}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.435\textheight]{figures/r_delta_r_open_loop}
+\caption{$r$-loop open-loop Bode with G.M. of 18 dB and P.M. of 90 deg}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.375\textheight]{figures/r_delta_r_closed_loop}
+\caption{r-loop closed-loop Bode with bandwidth of 1 rad/s (3dB criterion)}
 \end{center}
 \end{figure}
 
 \clearpage
+\section{Final Simulink Diagram}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/final_simulink}
+\caption{Simulink Diagram}
+\end{center}
+\end{figure}
 
+\noindent Where the navigation function is defined as
+\begin{filecontents*}{code.m}
+function [X_dot, Y_dot] = navigation(phi, v, psi)
+%#codegen
+
+theta = 0;
+U = 468.2;
+V = v;
+W = 0;
+
+X_dot = U * (cos(psi) * cos(theta)) + ...
+        V * (cos(psi) * sin(theta) * sin(phi) - sin(psi) * cos(phi)) + ...
+        W * (cos(psi) * sin(theta) * cos(phi) + sin(psi) * sin(phi));
+
+Y_dot = U * (sin(psi) * cos(theta)) + ...
+        V * (sin(psi) * sin(theta) * sin(phi) - cos(psi) * cos(phi)) + ...
+        W * (sin(psi) * sin(theta) * cos(phi) + cos(psi) * sin(phi));
+\end{filecontents*}
+\lstinputlisting[]{code.m}
+
+\clearpage
 \section{Results}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=.5\textheight]{figures/phi}
+\includegraphics[width=.85\textwidth]{figures/circle}
+\caption{Demonstration of turn-coordination from $\sim$ 267 second simulation}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=.85\textwidth]{figures/phi}
 \caption{$\phi$ response to $\phi_c$, showing $\sim 10\%$ overshoot}
-% \label{}
 \end{center}
 \end{figure}
 
@@ -181,7 +239,6 @@ phase margins of at least 40 deg
 \begin{center}
 \includegraphics[height=.4\textheight]{figures/beta}
 \caption{$\beta$ Response}
-% \label{}
 \end{center}
 \end{figure}
 
@@ -189,7 +246,6 @@ phase margins of at least 40 deg
 \begin{center}
 \includegraphics[height=.4\textheight]{figures/r}
 \caption{$r$ Response}
-% \label{}
 \end{center}
 \end{figure}
 
@@ -197,16 +253,14 @@ phase margins of at least 40 deg
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[height=.4\textheight]{figures/delta_a}
-\caption{$\delta_a$ Response}
-% \label{}
+\caption{$\delta_a$ Input}
 \end{center}
 \end{figure}
 
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[height=.4\textheight]{figures/delta_r}
-\caption{$\delta_r$ Response}
-% \label{}
+\caption{$\delta_r$ Input}
 \end{center}
 \end{figure}
 
