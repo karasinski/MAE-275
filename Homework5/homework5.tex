@@ -118,15 +118,6 @@ D =
 
 \clearpage
 \section{Designing the Controller}
-
-% The transfer function of the system, $VZ-4$, was identified as
-% \begin{filecontents*}{code.m}
-%             (s+1) (s+0.137)
-%   -----------------------------------
-%   (s+0.8223) (s^2 - 0.6401s + 0.5326)
-% \end{filecontents*}
-% \lstinputlisting[]{code.m}
-
 Two controllers were designed. The first controller, $Gc_{\phi}$ was designed as
 \begin{filecontents*}{code.m}
   -360.94 (s+1.413) (s+0.07616)
@@ -155,14 +146,68 @@ gain margins of at least 12dB
 
 phase margins of at least 40 deg
 
- 
+\clearpage
 
-% \begin{figure}[h]
-% \begin{center}
-% \includegraphics[width=.9\textwidth]{figures/simulink}
-% \caption{Simulink Diagram}
-% % \label{}
-% \end{center}
-% \end{figure}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/phi_delta_a_closed_loop}
+\caption{$\phi$-loop bandwidth of 3 rad/s (3dB criterion)}
+% \label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/r_delta_r_closed_loop}
+\caption{r-loop bandwidth of 1 rad/s (3dB criterion)}
+% \label{}
+\end{center}
+\end{figure}
+
+\clearpage
+
+\section{Results}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.5\textheight]{figures/phi}
+\caption{$\phi$ response to $\phi_c$, showing $\sim 10\%$ overshoot}
+% \label{}
+\end{center}
+\end{figure}
+
+\clearpage
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/beta}
+\caption{$\beta$ Response}
+% \label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/r}
+\caption{$r$ Response}
+% \label{}
+\end{center}
+\end{figure}
+
+\clearpage
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/delta_a}
+\caption{$\delta_a$ Response}
+% \label{}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/delta_r}
+\caption{$\delta_r$ Response}
+% \label{}
+\end{center}
+\end{figure}
 
 \end{document}

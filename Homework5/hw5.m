@@ -1,3 +1,5 @@
+clear all; close all;
+
 %% Basic Simulation Parameters
 g = 32.2;
 theta_0 = 0;
@@ -56,11 +58,19 @@ B = [Y_d_r       Y_d_a;
 
 C = [[1/u_0, 0, 0, 0, 0];   % beta
      [    0, 0, 1, 0, 0];   % r
-     [    0, 0, 0, 1, 0]];  % phi
+     [    0, 0, 0, 1, 0];   % phi
+     [    1, 0, 0, 0, 0];   % v
+     [    0, 1, 0, 0, 0];   % p
+     [    0, 0, 0, 0, 1]];  % psi
 
 D = [0 0; 
      0 0; 
+     0 0; 
+     0 0; 
+     0 0; 
      0 0;];
+
+%% Design Controllers
 
 % [a, b, c, d] = linmod('homework5');
 % [a, b, c, d] = minreal(a, b, c, d);
@@ -71,34 +81,61 @@ D = [0 0;
 % w=logspace(-3, 3, 6000);
 % bode(tf0, w)
 
+%% Load Controllers/Run Simulation
+load('comps.mat')
 sim('homework5', 50)
 
-subplot(2, 1, 1)
+% subplot(2, 1, 1)
+fig1 = figure;
 plot(t,57.3 * delta_r, 'LineWidth',2)
 ylabel('\delta_r (deg)')
-subplot(2, 1, 2)
+xlabel('Time (s)')
+set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
+set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
+saveas(fig1, 'figures/delta_r.pdf');
+% subplot(2, 1, 2)
+fig1 = figure;
 plot(t,57.3 * delta_a, 'LineWidth',2)
 ylabel('\delta_a (deg)')
 xlabel('Time (s)')
-pause
+set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
+set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
+saveas(fig1, 'figures/delta_a.pdf');
+% pause
 
-subplot(3, 1, 1)
+% subplot(3, 1, 1)
+fig1 = figure;
 plot(t,57.3 * r, 'LineWidth',2)
 ylabel('r (deg/s)')
-subplot(3, 1, 2)
+xlabel('Time (s)')
+set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
+set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
+saveas(fig1, 'figures/r.pdf');
+% subplot(3, 1, 2)
+fig1 = figure;
 plot(t,57.3 * phi, t,57.3 * phi_c, '--', 'LineWidth',2)
 ylabel('\phi (deg)')
-subplot(3, 1, 3)
+xlabel('Time (s)')
+set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
+set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
+legend('\phi', '\phi_c')
+saveas(fig1, 'figures/phi.pdf');
+% subplot(3, 1, 3)
+fig1 = figure;
 plot(t,57.3 * beta, 'LineWidth',2)
 ylabel('\beta (deg)')
 xlabel('Time (s)')
+set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
+set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
+saveas(fig1, 'figures/beta.pdf');
 
-% fig1 = figure;
-% % subplot(2,1,1)
-% plot(t,57.3 * theta, 'LineWidth',2)
-% ylabel('\theta (deg)')
-% xlabel('Time (s)')
-% set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
-% set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
-% saveas(fig1, 'figures/theta.pdf');
-
+%% Draw a Circle
+fig1 = figure;
+sim('homework5', 267)
+plot(X_dot, Y_dot)
+axis('equal') 
+xlabel('$$\dot{X}$$ (ft/s)', 'interpreter', 'latex')
+ylabel('$$\dot{Y}$$ (ft/s)', 'interpreter', 'latex')
+set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
+set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
+saveas(fig1, 'figures/circle.pdf');
