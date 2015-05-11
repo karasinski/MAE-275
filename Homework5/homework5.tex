@@ -71,9 +71,7 @@ D =
 \end{bmatrix}
 \end{equation*}
 
-\noindent with $x = [\Delta v, \Delta p, \Delta r, \Delta \varphi, \Delta \psi]$ and $u =[\Delta \delta_r, \Delta \delta_a]$.
-
-\noindent Plugging in the data for the DC-8 aircraft in Flight Condition 8002 from Appendix A of "Aircraft Dynamics and Automatic Control" yields
+\noindent with $x = [\Delta v, \Delta p, \Delta r, \Delta \varphi, \Delta \psi]$ and $u =[\Delta \delta_r, \Delta \delta_a]$. Plugging in the data for the DC-8 aircraft in Flight Condition 8002 from Appendix A of "Aircraft Dynamics and Automatic Control" yields
 \begin{equation*}
 A =
 \begin{bmatrix}
@@ -134,6 +132,13 @@ Two controllers were designed. The first controller, $Gc_{\phi}$ was designed as
 \end{center}
 \end{figure}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.425\textheight]{figures/phi_nyquist2}
+\caption{Nyquist Diagram for First Controller Design}
+\end{center}
+\end{figure}
+
 \noindent The second controller, $Gc_r$ was designed as
 \begin{filecontents*}{code.m}
   21.969 (s-1.86)
@@ -148,6 +153,13 @@ Two controllers were designed. The first controller, $Gc_{\phi}$ was designed as
 \begin{center}
 \includegraphics[height=.425\textheight]{figures/second_controller_simulink}
 \caption{Simulink Diagram for Second Controller Design}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.425\textheight]{figures/r_nyquist2}
+\caption{Nyquist Diagram for Second Controller Design}
 \end{center}
 \end{figure}
 
@@ -193,7 +205,7 @@ phase margins of at least 40 deg
 \begin{figure}[h!]
 \begin{center}
 \includegraphics[width=1\textwidth]{figures/final_simulink}
-\caption{Simulink Diagram}
+\caption{Final Simulink Diagram}
 \end{center}
 \end{figure}
 
@@ -261,6 +273,26 @@ Y_dot = U * (sin(psi) * cos(theta)) + ...
 \begin{center}
 \includegraphics[height=.4\textheight]{figures/delta_r}
 \caption{$\delta_r$ Input}
+\end{center}
+\end{figure}
+
+\section{Handling Qualities}
+The handling qualities of the aircraft with the designed controllers can be estimated using the Bandwidth/Phase-Delay boundaries explained in the handout. The bandwidth is defined as $w_{BW_{phase}} = 3.82$ rad/s. The phase delay, $\tau_p$ is defined
+\begin{equation*}
+\tau_p = \dfrac{\Delta \Phi 2w_{180}}{57.3 (2w_{180})} = \dfrac{(-179.7) - (-193.3)}{57.3 (2*32.54)} = 0.003 \mbox{s}
+\end{equation*}
+These values suggest Level 1 handling qualities.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/all}
+\caption{Closed-loop Bode with relevant points selected}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.2\textheight]{figures/handling_marked}
+\caption{Handling qualities plot with location marked}
 \end{center}
 \end{figure}
 
