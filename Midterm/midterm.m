@@ -61,7 +61,7 @@ for i = 1:2
 	elseif i == 2
 		airspeed=0;
 		altituderate=0;
-		ugstep=20;
+		ugstep=-20;
 	end
 
 	time=60;
@@ -69,37 +69,44 @@ for i = 1:2
 	dele=dele*57.3;
 	theta=theta*57.3;
 	figure(2*i - 1)
+	title('Control Inputs')
 	subplot(2,1,1)
 	plot(t,dele)
-	title('Control Inputs')
 	ylabel('$\delta_e$ (degrees)','interpreter','latex')
-	xlabel('$t$ (s)','interpreter','latex')
+	% xlabel('$t$ (s)','interpreter','latex')
 	xlim([0 time])
+	ylim([-1.5 2.5])
 	subplot(2,1,2)
 	plot(t,delT)
 	ylabel('$\delta_T$ (lbf)','interpreter','latex')
 	xlabel('$t$ (s)','interpreter','latex')
 	xlim([0 time])
+	ylim([-8e4 8e4])
+
 	figure(2*i)
+	title('Response Variables')
 	subplot(2,2,1)
 	plot(t,theta)
-	title('Response Variables')
 	ylabel('$\theta$ (degrees)','interpreter','latex')
-	xlabel('$t$ (s)','interpreter','latex')
+	% xlabel('$t$ (s)','interpreter','latex')
 	xlim([0 time])
 	subplot(2,2,2)
 	plot(t,h) 
 	ylabel('$h$ (ft)','interpreter','latex')
-	xlabel('$t$ (s)','interpreter','latex')
+	% xlabel('$t$ (s)','interpreter','latex')
 	xlim([0 time])
 	subplot(2,2,3)
-	plot(t,u) 
-	ylabel('$u$ (ft/s)','interpreter','latex')
+	plot(t,u-u_g,t,uc) 
+	ylabel('Speed (ft/s)','interpreter','latex')
+	h = legend('$u$', '$u_c$');
+	set(h,'Interpreter','latex')
 	xlabel('$t$ (s)','interpreter','latex')
 	xlim([0 time])
 	subplot(2,2,4)
-	plot(t,hdot)
-	ylabel('$\dot{h}$ (ft/s)','interpreter','latex')
+	plot(t,hdot,t,hdotc)
+	ylabel('Altitude Rate (ft/s)','interpreter','latex')
+	h = legend('$\dot{h}$', '$\dot{h}_c$');
+	set(h,'Interpreter','latex')
 	xlabel('$t$ (s)','interpreter','latex')
 	xlim([0 time])
 end
