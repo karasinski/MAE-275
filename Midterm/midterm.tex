@@ -25,21 +25,28 @@
 
 \title{MAE 275 - Midterm}
 \author{John Karasinski}
-\date{May 21, 2015}
+\date{May 22, 2015}
 
 \begin{document}
 \maketitle
 
 \section{Defining the System}
 The state-space system can be defined,
-\begin{equation}
+\begin{equation*}
 \begin{split}
 \dot{\vec{x}} = A\vec{x} + B\vec{u} \\
       \vec{y} = C\vec{x} + D\vec{u}
 \end{split}
-\end{equation}
+\end{equation*}
 
-\noindent where the linearized longitudinal aircraft equations of motion can be expressed in state space form, with state variables $\Delta u, \Delta w, \Delta q, \Delta \theta, \Delta h$, as
+\noindent where the linearized longitudinal aircraft equations of motion can be expressed in state space form.
+
+$$
+\vec{x}= \left[ \begin{array}{c}        u \\ w        \\ q   \\ \theta \\       h \end{array} \right], \qquad
+\vec{u}= \left[ \begin{array}{c} \delta_e \\ \delta_T \\ u_g                      \end{array} \right], \qquad
+\vec{y}= \left[ \begin{array}{c}        u \\ \alpha   \\ h   \\ \dot{h} \\ \theta \end{array} \right] 
+$$
+
 \begin{equation*}
 A =
 \begin{bmatrix}
@@ -71,10 +78,8 @@ C =
     0 &          0     & 0 & 0   & 1\\
     0 &         -1     & 0 & u_0 & 0\\
     0 &          0     & 0 & 1   & 0\\
-\end{bmatrix}
-\end{equation*}
-
-\begin{equation*}
+\end{bmatrix},
+\qquad
 D =
 \begin{bmatrix}
     0 & 0 & 0 \\
@@ -87,11 +92,6 @@ D =
 
 \clearpage
 \noindent Using the longitudinal equations of motion for C-5A for level flight ($u_0=246$ ft/s) at sea level, the resultant system is
-$$
-\vec{x}= \left[ \begin{array}{c}        u \\ w        \\ q   \\ \theta \\       h \end{array} \right], \qquad
-\vec{u}= \left[ \begin{array}{c} \delta_e \\ \delta_T \\ u_g                      \end{array} \right], \qquad
-\vec{y}= \left[ \begin{array}{c}        u \\ \alpha   \\ h   \\ \dot{h} \\ \theta \end{array} \right] 
-$$
 
 $$
 \dot{\vec{x}} = \left[ \begin{array}{ccccc}
@@ -128,83 +128,32 @@ The loops are sequentially closed in the order: $\theta\rightarrow\delta_e$, $u\
 The following page lists the linearized transfer functions used to design the compensators, along with the transfer function of each compensator.
 The gain and phase margins and bandwidth are also listed for the compensated loop.
 
-% \noindent with $x = [\Delta v, \Delta p, \Delta r, \Delta \varphi, \Delta \psi]$ and $u =[\Delta \delta_r, \Delta \delta_a]$. Plugging in the data for the DC-8 aircraft in Flight Condition 8002 from Appendix A of "Aircraft Dynamics and Automatic Control" yields
-% \begin{equation*}
-% A =
-% \begin{bmatrix}
-%   -1.0080e-1 &          0 & -4.6820e+2 & +3.2200e+1  &          0 \\
-%   -5.7881e-3 & -1.2320e+0 & +3.9700e-1 &          0  &          0 \\
-%   +2.7787e-3 & -3.4600e-2 & -2.5700e-1 &          0  &          0 \\
-%            0 &          1 &          0 &          0  &          0 \\
-%            0 &          0 &          1 &          0  &          0 \\
+\clearpage
+\section{Compensators}
 
-% \end{bmatrix}
-% \end{equation*}
+\begin{gather*}
+\boxed{Gc_{\theta} = -260 \times \frac{(s+0.8)(s+0.1)}{s(s+2)(s+100)}} \\
+\\
+G_m=22.4\,\mathrm{dB\,\, at\,} 5.64 \,\mathrm{rad/s}  \\
+P_m=57.9^{\circ}\, \mathrm{at}\, 1.18 \,\mathrm{rad/s} \\
+\omega_{BW}=1.98\, \mathrm{rad/s}\\
+\end{gather*}
 
-% \begin{equation*}
-% B =
-% \begin{bmatrix}
-%   +1.3480e+1 &          0 \\
-%   +3.9200e-1 & -1.6200e+0 \\
-%   -8.6400e-1 & -1.8750e-2 \\
-%            0 &          0 \\
-%            0 &          0 \\
-% \end{bmatrix}
-% \end{equation*}
+\begin{gather*}
+\boxed{Gc_{\dot{h}} = 30909 \times \frac{(s+0.1)}{s(s+5)}} \\
+\\
+G_m=25.7\,\mathrm{dB\,\, at\,} 3.08 \,\mathrm{rad/s}  \\
+P_m=72.3^{\circ}\, \mathrm{at}\, 0.351 \,\mathrm{rad/s} \\
+\omega_{BW}=0.499\, \mathrm{rad/s}\\
+\end{gather*}
 
-% \begin{equation*}
-% C =
-% \begin{bmatrix}
-%    +2.1358e-3 &           0 &           0  &          0 &           0 \\
-%             0 &           0 &           1  &          0 &           0 \\
-%             0 &           0 &           0  &          1 &           0 \\
-% \end{bmatrix}
-% \end{equation*}
-
-% \begin{equation*}
-% D =
-% \begin{bmatrix}
-%      0  &   0 \\
-%      0  &   0 \\
-%      0  &   0 \\
-% \end{bmatrix}
-% \end{equation*}
-
-% \clearpage
-% \section{Designing the Controllers}
-% Two controllers were designed. The first controller, $Gc_{\phi}$ was designed as
-% \begin{filecontents*}{code.m}
-%   -360.94 (s+1.413) (s+0.07616)
-%   -----------------------------
-%          s (s+100) (s+3)
-% \end{filecontents*}
-% \lstinputlisting[]{code.m}
-
-% \noindent This controller was determined using loop-shaping principles such that it had a roll-attitude bandwidth of $\sim$3 rad/sec (-3dB criterion) and a minimum overshoot in step response. \\
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.425\textheight]{figures/first_controller_simulink}
-% \caption{Simulink Diagram for First Controller Design}
-% \end{center}
-% \end{figure}
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.425\textheight]{figures/phi_nyquist2}
-% \caption{Nyquist Diagram for First Controller Design}
-% \end{center}
-% \end{figure}
-
-% \noindent The second controller, $Gc_r$ was designed as
-% \begin{filecontents*}{code.m}
-%   21.969 (s-1.86)
-%   ----------------
-%   (s+10) (s+8.199)
-% \end{filecontents*}
-% \lstinputlisting[]{code.m}
-
-% \noindent This controller was determined using loop-shaping principles such that it had a bandwidth of $\sim$1 rad/sec (-3dB criterion), giving a factor of approximately three between r-loop and $\phi$-loop bandwidths. \\
+\begin{gather*}
+\boxed{Gc_{u} = 0.00055 \times \frac{1}{s}} \\
+\\
+G_m=19.8\,\mathrm{dB\,\, at\,} 0.785 \,\mathrm{rad/s}  \\
+P_m=68.1^{\circ}\, \mathrm{at}\, .132 \,\mathrm{rad/s} \\
+\omega_{BW}=0.202\, \mathrm{rad/s}\\
+\end{gather*}
 
 % \begin{figure}[h!]
 % \begin{center}
@@ -213,144 +162,6 @@ The gain and phase margins and bandwidth are also listed for the compensated loo
 % \end{center}
 % \end{figure}
 
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.425\textheight]{figures/r_nyquist2}
-% \caption{Nyquist Diagram for Second Controller Design}
-% \end{center}
-% \end{figure}
 
-% \noindent Additionally, both controllers have:
-
-% more poles than zeros (are strictly proper compensators)
-
-% gain margins of at least 12dB
-
-% phase margins of at least 40 deg
-
-% \clearpage
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.435\textheight]{figures/phi_delta_a_open_loop}
-% \caption{$\phi$-loop open-loop Bode with G.M. of 34 dB and P.M. of 49 deg}
-% \end{center}
-% \end{figure}
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.375\textheight]{figures/phi_delta_a_closed_loop}
-% \caption{$\phi$-loop closed-loop Bode with bandwidth of 3 rad/s (3dB criterion)}
-% \end{center}
-% \end{figure}
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.435\textheight]{figures/r_delta_r_open_loop}
-% \caption{$r$-loop open-loop Bode with G.M. of 18 dB and P.M. of 90 deg}
-% \end{center}
-% \end{figure}
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.375\textheight]{figures/r_delta_r_closed_loop}
-% \caption{r-loop closed-loop Bode with bandwidth of 1 rad/s (3dB criterion)}
-% \end{center}
-% \end{figure}
-
-% \clearpage
-% \section{Final Simulink Diagram}
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[width=1\textwidth]{figures/final_simulink}
-% \caption{Final Simulink Diagram}
-% \end{center}
-% \end{figure}
-
-% \noindent Where the navigation function is defined as
-% \begin{filecontents*}{code.m}
-% function [X_dot, Y_dot] = navigation(phi, v, psi)
-% %#codegen
-
-% theta = 0;
-% U = 468.2;
-% V = v;
-% W = 0;
-
-% X_dot = U * (cos(psi) * cos(theta)) + ...
-%         V * (cos(psi) * sin(theta) * sin(phi) - sin(psi) * cos(phi)) + ...
-%         W * (cos(psi) * sin(theta) * cos(phi) + sin(psi) * sin(phi));
-
-% Y_dot = U * (sin(psi) * cos(theta)) + ...
-%         V * (sin(psi) * sin(theta) * sin(phi) - cos(psi) * cos(phi)) + ...
-%         W * (sin(psi) * sin(theta) * cos(phi) + cos(psi) * sin(phi));
-% \end{filecontents*}
-% \lstinputlisting[]{code.m}
-
-% \clearpage
-% \section{Results}
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[width=.85\textwidth]{figures/circle}
-% \caption{Demonstration of turn-coordination from $\sim$ 267 second simulation}
-% \end{center}
-% \end{figure}
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[width=.85\textwidth]{figures/phi}
-% \caption{$\phi$ response to $\phi_c$, showing $\sim 10\%$ overshoot}
-% \end{center}
-% \end{figure}
-
-% \clearpage
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.4\textheight]{figures/beta}
-% \caption{$\beta$ Response}
-% \end{center}
-% \end{figure}
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.4\textheight]{figures/r}
-% \caption{$r$ Response}
-% \end{center}
-% \end{figure}
-
-% \clearpage
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.4\textheight]{figures/delta_a}
-% \caption{$\delta_a$ Input}
-% \end{center}
-% \end{figure}
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.4\textheight]{figures/delta_r}
-% \caption{$\delta_r$ Input}
-% \end{center}
-% \end{figure}
-
-% \section{Handling Qualities}
-% The handling qualities of the aircraft with the designed controllers can be estimated using the Bandwidth/Phase-Delay boundaries explained in the handout. The bandwidth is defined as $w_{BW_{phase}} = 3.82$ rad/s. The phase delay, $\tau_p$ is defined
-% \begin{equation*}
-% \tau_p = \dfrac{\Delta \Phi 2w_{180}}{57.3 (2w_{180})} = \dfrac{(-179.7) - (-193.3)}{57.3 (2*32.54)} = 0.003 \mbox{s}
-% \end{equation*}
-% These values suggest Level 1 handling qualities.
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.4\textheight]{figures/all}
-% \caption{Closed-loop Bode with relevant points selected}
-% \end{center}
-% \end{figure}
-
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.2\textheight]{figures/handling_marked}
-% \caption{Handling qualities plot with location marked}
-% \end{center}
-% \end{figure}
 
 \end{document}

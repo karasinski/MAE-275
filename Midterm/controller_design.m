@@ -1,7 +1,3 @@
-%x = [ u w q theta h]
-%u = [ del_e del_T u_g]
-%y = [ u alpha h hdot theta ]
-
 g = 32.2;
 theta_0 = 0;
 
@@ -52,61 +48,23 @@ D = [0   0   0;
      0   0   0;
      0   0   0];
 
-for i = 1:2
+[a, b, c, d] = linmod('theta_dele');
+[a, b, c, d] = minreal(a, b, c, d);
+[num,den]=ss2tf(a, b, c, d);
+tf0 = tf(num,den);
+zpk(tf0)
+sisotool('bode', tf0)
 
-	if i == 1
-		airspeed=20;
-		altituderate=20;
-		ugstep=0;
-	elseif i == 2
-		airspeed=0;
-		altituderate=0;
-		ugstep=-20;
-	end
+[a, b, c, d] = linmod('u_delT');
+[a, b, c, d] = minreal(a, b, c, d);
+[num,den]=ss2tf(a, b, c, d);
+tf0 = tf(num,den);
+zpk(tf0)
+sisotool('bode', tf0)
 
-	time=80;
-	sim('midterm',time)
-	dele=dele*57.3;
-	theta=theta*57.3;
-	figure(2*i - 1)
-	title('Control Inputs')
-	subplot(2,1,1)
-	plot(t,dele)
-	ylabel('$\delta_e$ (degrees)','interpreter','latex')
-	% xlabel('$t$ (s)','interpreter','latex')
-	xlim([0 time])
-	% ylim([-1.5 2.5])
-	subplot(2,1,2)
-	plot(t,delT)
-	ylabel('$\delta_T$ (lbf)','interpreter','latex')
-	xlabel('$t$ (s)','interpreter','latex')
-	xlim([0 time])
-	% ylim([-8e4 8e4])
-
-	figure(2*i)
-	title('Response Variables')
-	subplot(2,2,1)
-	plot(t,theta)
-	ylabel('$\theta$ (degrees)','interpreter','latex')
-	% xlabel('$t$ (s)','interpreter','latex')
-	xlim([0 time])
-	subplot(2,2,2)
-	plot(t,h) 
-	ylabel('$h$ (ft)','interpreter','latex')
-	% xlabel('$t$ (s)','interpreter','latex')
-	xlim([0 time])
-	subplot(2,2,3)
-	plot(t,u-u_g,t,uc) 
-	ylabel('Velocity (ft/s)','interpreter','latex')
-	h = legend('$u+u_g$', '$u_c$');
-	set(h,'Interpreter','latex')
-	xlabel('$t$ (s)','interpreter','latex')
-	xlim([0 time])
-	subplot(2,2,4)
-	plot(t,hdot,t,hdotc)
-	ylabel('Altitude Rate (ft/s)','interpreter','latex')
-	h = legend('$\dot{h}$', '$\dot{h}_c$');
-	set(h,'Interpreter','latex')
-	xlabel('$t$ (s)','interpreter','latex')
-	xlim([0 time])
-end
+[a, b, c, d] = linmod('hdot_dele');
+[a, b, c, d] = minreal(a, b, c, d);
+[num,den]=ss2tf(a, b, c, d);
+tf0 = tf(num,den);
+zpk(tf0)
+sisotool('bode', tf0)
