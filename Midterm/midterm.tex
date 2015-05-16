@@ -125,8 +125,15 @@ $$
          
 \vspace{25pt}
 The loops are sequentially closed in the order: $\theta\rightarrow\delta_e$, $u\rightarrow\delta_T$, $\dot{h}\rightarrow\theta_e$.
-The following page lists the linearized transfer functions used to design the compensators, along with the transfer function of each compensator.
+The following pages lists the linearized transfer functions used to design the compensators, along with the transfer function of each compensator.
 The gain and phase margins and bandwidth are also listed for the compensated loop.
+
+\begin{figure}[b!]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/final_simulink}
+\caption{Final Simulink Model}
+\end{center}
+\end{figure}
 
 \clearpage
 \section{Compensators}
@@ -138,10 +145,10 @@ The gain and phase margins and bandwidth are also listed for the compensated loo
 \\
 G_m=22.4\,\mathrm{dB\,\, at\,} 5.64 \,\mathrm{rad/s}  \\
 P_m=57.9^{\circ}\, \mathrm{at}\, 1.18 \,\mathrm{rad/s} \\
-\omega_{BW}=1.98\, \mathrm{rad/s}\\
+\omega_{BW}=1.98\, \mathrm{rad/s}\,\mathrm{\,(3 dB\, criterion)}\\
 \end{gather*}
 
-\begin{figure}[h!]
+\begin{figure}[b!]
 \begin{center}
 \includegraphics[height=.4\textheight]{figures/nyquist_theta}
 \caption{Nyquist Diagram for $\dfrac{\theta}{\delta_e}$}
@@ -169,10 +176,10 @@ P_m=57.9^{\circ}\, \mathrm{at}\, 1.18 \,\mathrm{rad/s} \\
 \\
 G_m=25.7\,\mathrm{dB\,\, at\,} 3.08 \,\mathrm{rad/s}  \\
 P_m=72.3^{\circ}\, \mathrm{at}\, 0.351 \,\mathrm{rad/s} \\
-\omega_{BW}=0.499\, \mathrm{rad/s}\\
+\omega_{BW}=0.499\, \mathrm{rad/s}\,\mathrm{\,(3 dB\, criterion)}\\
 \end{gather*}
 
-\begin{figure}[h!]
+\begin{figure}[b!]
 \begin{center}
 \includegraphics[height=.4\textheight]{figures/nyquist_u}
 \caption{Nyquist Diagram for $\dfrac{\theta}{\delta_e}$}
@@ -200,10 +207,10 @@ P_m=72.3^{\circ}\, \mathrm{at}\, 0.351 \,\mathrm{rad/s} \\
 \\
 G_m=19.8\,\mathrm{dB\,\, at\,} 0.785 \,\mathrm{rad/s}  \\
 P_m=68.1^{\circ}\, \mathrm{at}\, 0.132 \,\mathrm{rad/s} \\
-\omega_{BW}=0.202\, \mathrm{rad/s}\\
+\omega_{BW}=0.202\, \mathrm{rad/s}\,\mathrm{\,(3 dB\, criterion)}\\
 \end{gather*}
 
-\begin{figure}[h!]
+\begin{figure}[b!]
 \begin{center}
 \includegraphics[height=.4\textheight]{figures/nyquist_hdot}
 \caption{Nyquist Diagram for $\dfrac{\theta}{\delta_e}$}
@@ -221,6 +228,40 @@ P_m=68.1^{\circ}\, \mathrm{at}\, 0.132 \,\mathrm{rad/s} \\
 \begin{center}
 \includegraphics[height=.4\textheight]{figures/close_comp_hdot}
 \caption{Close-loop Compensated Bode Diagram for $\dfrac{\dot{h}}{\theta_e}$}
+\end{center}
+\end{figure}
+
+\clearpage
+\section{Response to Inputs}
+Two initial conditions were investigated: 
+1) a filtered step altitude-rate command of 20 ft/sec and a filtered step airspeed command of 20 ft/sec, applied simultaneously; 
+2) a step $u_g$ of 20 ft/sec (a tail wind), without the altitude and airspeed commands. The aircraft reaches steady-state in $\sim50$ sec for both scenarios.
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.35\textheight]{figures/inputs1}
+\caption{Commanded Inputs for Scenario 1}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.35\textheight]{figures/outputs2}
+\caption{Outputs for Scenario 1}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/inputs3}
+\caption{Commanded Inputs for Scenario 2}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/outputs4}
+\caption{Outputs for Scenario 2}
 \end{center}
 \end{figure}
 

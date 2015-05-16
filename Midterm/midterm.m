@@ -68,7 +68,7 @@ for i = 1:2
 	sim('midterm',time)
 	dele=dele*57.3;
 	theta=theta*57.3;
-	figure(2*i - 1)
+	fig1 = figure(2*i - 1)
 	title('Control Inputs')
 	subplot(2,1,1)
 	plot(t,dele)
@@ -82,8 +82,12 @@ for i = 1:2
 	xlabel('$t$ (s)','interpreter','latex')
 	xlim([0 time])
 	% ylim([-8e4 8e4])
+	set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
+	set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
+	% saveas(fig1, 'figures/inputs' + num2str(2*i - 1) + '.pdf');
+	saveas(fig1, strjoin({'figures/inputs'; num2str(2*i - 1); '.pdf'}, ''));
 
-	figure(2*i)
+	fig2 = figure(2*i)
 	title('Response Variables')
 	subplot(2,2,1)
 	plot(t,theta)
@@ -109,4 +113,7 @@ for i = 1:2
 	set(h,'Interpreter','latex')
 	xlabel('$t$ (s)','interpreter','latex')
 	xlim([0 time])
+	set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
+	set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
+	saveas(fig2, strjoin({'figures/outputs'; num2str(2*i); '.pdf'}, ''));
 end

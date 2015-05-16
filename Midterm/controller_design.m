@@ -118,4 +118,4 @@ xlim([.01 100])
 set(gcf, 'PaperPosition', [0 0 6.8493150684931505, 4.2331095119855817]); %Position plot at left hand corner with width 5 and height 5.
 set(gcf, 'PaperSize', [6.8493150684931505, 4.2331095119855817]); %Set the paper to have width 5 and height 5.
 pause
-saveas(fig1, 'figures/close_comp_hdot.pdf');
+saveas(fig2, 'figures/close_comp_hdot.pdf');
