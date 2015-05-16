@@ -132,6 +132,8 @@ The gain and phase margins and bandwidth are also listed for the compensated loo
 \section{Compensators}
 
 \begin{gather*}
+\frac{\theta}{\delta_e}=\frac{-20.387 (s+0.5819) (s+0.06093)}{(s+20) (s^2 + 0.02027s + 0.01411) (s^2 + 1.463s + 0.7531)} \\
+\\
 \boxed{Gc_{\theta} = -260 \times \frac{(s+0.8)(s+0.1)}{s(s+2)(s+100)}} \\
 \\
 G_m=22.4\,\mathrm{dB\,\, at\,} 5.64 \,\mathrm{rad/s}  \\
@@ -139,7 +141,30 @@ P_m=57.9^{\circ}\, \mathrm{at}\, 1.18 \,\mathrm{rad/s} \\
 \omega_{BW}=1.98\, \mathrm{rad/s}\\
 \end{gather*}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/nyquist_theta}
+\caption{Nyquist Diagram for $\dfrac{\theta}{\delta_e}$}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/open_comp_theta}
+\caption{Open-loop Compensated Bode Diagram for $\dfrac{\theta}{\delta_e}$}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/close_comp_theta}
+\caption{Close-loop Compensated Bode Diagram for $\dfrac{\theta}{\delta_e}$}
+\end{center}
+\end{figure}
+
 \begin{gather*}
+\frac{u}{\delta_T}=\frac{0.0001108 (s+1.093) (s+0.3076) (s+0.1381) (s^2 + 1.745s + 2.785)}{(s+2) (s+1.078) (s+0.0452) (s^2 + 0.4706s + 0.05552) (s^2 + 1.716s + 2.754)} \\
+\\
 \boxed{Gc_{\dot{h}} = 30909 \times \frac{(s+0.1)}{s(s+5)}} \\
 \\
 G_m=25.7\,\mathrm{dB\,\, at\,} 3.08 \,\mathrm{rad/s}  \\
@@ -147,21 +172,56 @@ P_m=72.3^{\circ}\, \mathrm{at}\, 0.351 \,\mathrm{rad/s} \\
 \omega_{BW}=0.499\, \mathrm{rad/s}\\
 \end{gather*}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/nyquist_u}
+\caption{Nyquist Diagram for $\dfrac{\theta}{\delta_e}$}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/open_comp_u}
+\caption{Open-loop Compensated Bode Diagram for $\dfrac{u}{\delta_T}$}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/close_comp_u}
+\caption{Close-loop Compensated Bode Diagram for $\dfrac{u}{\delta_T}$}
+\end{center}
+\end{figure}
+
 \begin{gather*}
+\frac{\dot{h}}{\theta_e}=\frac{-74334 (s+3.752) (s+1.35) (s+0.8) (s+0.2827) (s+0.1736) (s+0.1) (s-2.901)}{(s+99.99) (s+20.18) (s+1.371) (s+0.9979) (s^2 + 0.2143s + 0.01295) (s^2 + 0.8171s + 0.1759) (s^2 + 1.707s + 2.74)} \\
+\\
 \boxed{Gc_{u} = 0.00055 \times \frac{1}{s}} \\
 \\
 G_m=19.8\,\mathrm{dB\,\, at\,} 0.785 \,\mathrm{rad/s}  \\
-P_m=68.1^{\circ}\, \mathrm{at}\, .132 \,\mathrm{rad/s} \\
+P_m=68.1^{\circ}\, \mathrm{at}\, 0.132 \,\mathrm{rad/s} \\
 \omega_{BW}=0.202\, \mathrm{rad/s}\\
 \end{gather*}
 
-% \begin{figure}[h!]
-% \begin{center}
-% \includegraphics[height=.425\textheight]{figures/second_controller_simulink}
-% \caption{Simulink Diagram for Second Controller Design}
-% \end{center}
-% \end{figure}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/nyquist_hdot}
+\caption{Nyquist Diagram for $\dfrac{\theta}{\delta_e}$}
+\end{center}
+\end{figure}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/open_comp_hdot}
+\caption{Open-loop Compensated Bode Diagram for $\dfrac{\dot{h}}{\theta_e}$}
+\end{center}
+\end{figure}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/close_comp_hdot}
+\caption{Close-loop Compensated Bode Diagram for $\dfrac{\dot{h}}{\theta_e}$}
+\end{center}
+\end{figure}
 
 \end{document}
