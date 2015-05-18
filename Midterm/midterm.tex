@@ -95,39 +95,34 @@ D =
 
 $$
 \dot{\vec{x}} = \left[ \begin{array}{ccccc}
-  -0.0214              &  +0.0957             &    0      &  -32.2 & 0 \\
-   -0.231              &  -0.634              & +246      &    0   & 0 \\
-   +1.964\times10^{-4} &  -8.895\times10^{-4} &   -0.8275 &    0   & 0 \\
-    0                  &   0                  &    1      &    0   & 0 \\
-    0                  &  -1                  &    0      & +246   & 0 \end{array} \right]
+  -2.140e-2 & +9.570e-2 &         0 & -3.220e+1 &         0 \\
+  -2.310e-1 & -6.340e-1 & +2.460e+2 &         0 &         0 \\
+  +1.964e-4 & -8.895e-4 & -8.274e-1 &         0 &         0 \\
+          0 &         0 &         1 &         0 &         0 \\
+          0 &        -1 &         0 & +2.460e+2 &         0 \end{array} \right]
 \vec{x} + \left[\begin{array}{ccc}
-      +0.45            & +0.554\times10^{-4}  & +0.0214                \\ 
-      -9.53            & -0.193\times10^{-5}  & +0.231                 \\
-    -0.6795            & +1.4571\times10^{-7} & -1.9642\times10^{-4}   \\ 
-          0            &  0                   &  0                     \\ 
-          0            &  0                   &  0 \end{array}\right] \vec{u}  
+  +4.500e-1 & +5.540e-5 & +2.140e-2 \\
+  -9.530e+0 & -1.930e-6 & +2.310e-1 \\
+  -6.795e-1 & +1.457e-7 & -1.964e-4 \\
+          0 &         0 &         0 \\
+          0 &         0 &         0 \end{array}\right] \vec{u}
 $$
 
 $$
 \vec{y} = \left[ \begin{array}{ccccc}
-         1 &   0      &   0   &    0   &  0 \\
-         0 &   0.0041 &   0   &    0   &  0 \\
-         0 &   0      &   0   &    0   &  1 \\
-         0 &  -1      &   0   &  246   &  0 \\
-         0 &   0      &   0   &    1   &  0 \end{array} \right]
+         1 &         0 &          0 &         0 &         0 \\
+         0 & +4.065e-3 &          0 &         0 &         0 \\
+         0 &         0 &          0 &         0 &         1 \\
+         0 &        -1 &          0 & +2.460e+2 &         0 \\
+         0 &         0 &          0 &         1 &         0 \end{array} \right]
 \vec{x}+\left[\begin{array}{ccc}
-         0 &   0      & 0 \\ 
-         0 &   0      & 0 \\
-         0 &   0      & 0 \\
-         0 &   0      & 0 \\
-         0 &   0      & 0 \end{array}\right]\vec{u}
+         0 &         0 &          0 \\
+         0 &         0 &          0 \\
+         0 &         0 &          0 \\
+         0 &         0 &          0 \\
+         0 &         0 &          0 \end{array}\right]\vec{u}
 $$
          
-\vspace{25pt}
-The loops are sequentially closed in the order: $\theta\rightarrow\delta_e$, $u\rightarrow\delta_T$, $\dot{h}\rightarrow\theta_e$.
-The following pages lists the linearized transfer functions used to design the compensators, along with the transfer function of each compensator.
-The gain and phase margins and bandwidth are also listed for the compensated loop.
-
 \begin{figure}[b!]
 \begin{center}
 \includegraphics[width=1\textwidth]{figures/final_simulink}
@@ -137,6 +132,29 @@ The gain and phase margins and bandwidth are also listed for the compensated loo
 
 \clearpage
 \section{Compensators}
+The loops are sequentially closed in the order: $\theta\rightarrow\delta_e$, $u\rightarrow\delta_T$, $\dot{h}\rightarrow\theta_e$. A successive set of Simulink models was used to design the three compensators. The following pages lists the linearized transfer functions used to design the compensators, along with the transfer function of each compensator.
+The gain and phase margins and bandwidth are also listed for the compensated loop.
+\begin{figure}[b!]
+\begin{center}
+\includegraphics[width=.7\textwidth]{figures/theta}
+\caption{Simulink model for designing the $\dfrac{\theta}{\delta_e}$ controller}
+\end{center}
+\end{figure}
+
+\begin{figure}[b!]
+\begin{center}
+\includegraphics[width=.7\textwidth]{figures/u}
+\caption{Simulink model for designing the $\dfrac{u}{\delta_T}$ controller}
+\end{center}
+\end{figure}
+
+\begin{figure}[b!]
+\begin{center}
+\includegraphics[width=.7\textwidth]{figures/hdot}
+\caption{Simulink model for designing the $\dfrac{\dot{h}}{\theta_e}$ controller}
+\end{center}
+\end{figure}
+\clearpage
 
 \begin{gather*}
 \frac{\theta}{\delta_e}=\frac{-20.387 (s+0.5819) (s+0.06093)}{(s+20) (s^2 + 0.02027s + 0.01411) (s^2 + 1.463s + 0.7531)} \\
