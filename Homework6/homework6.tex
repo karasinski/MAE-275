@@ -74,7 +74,7 @@ $$
          0 &         0 \end{array}\right]\vec{u}
 $$
 
-\noindent Coupling numerators can be used to decide which loops to close in which order, and appropriate compensators can then be designed.
+\noindent Coupling numerators can be used to detrmine input-output pairing and which loops to close in which order, and appropriate compensators can then be designed.
 
 \clearpage
 \section{Coupling Numerators}
@@ -117,18 +117,34 @@ The coupling numerators can be derived using the notes in the assignment and the
 \item rule out $\smash{\dfrac{p}{v_2}\biggr\rvert_{\beta \rightarrow v_1}}$ and $\smash{\dfrac{\beta}{v_1}\biggr\rvert_{p \rightarrow v_2}}$ due to the closed-loop unstable poles that would be produced
 \end{enumerate}
 
-\noindent This leaves only one viable option: to first close $p$ with $v_1$, then close $\beta$ with $v_2$ with the $p-v_1$ loop closed.
+\noindent This leaves only one viable option: to first close $p$ with $v_1$, then close $\beta$ with $v_2$ with the $p-v_1$ loop closed. As such, the ailerons are paired to the roll-rate, and the rudder is paired to the sideslip.
 
 \clearpage
 \section{Compensators}
-Two compensators were designed:
-
+Two compensators were designed. After both loops were closed, the reported gain and phase margins, and the crossover bandwidths were noted at
 \begin{gather*}
-\begin{split}
-GC_p &= \frac{0.18 (s+2)}{s} \\
-GC_{\beta} &= \frac{3.72 (s^2 + .2s + 3.5)}{(.05 * s^2 + s)}
-\end{split}
+\boxed{GC_p = 0.18 \times \frac{(s+2)}{s}} \\
+\\
+G_m=Inf\,\mathrm{dB\,\,} \\
+P_m=86.7^{\circ}\, \mathrm{at}\, 5.06 \,\mathrm{rad/s} \\
+\omega_{BW}=5.06\, \mathrm{rad/s}\,\\
 \end{gather*}
+\begin{gather*}
+\boxed{GC_{\beta} = 74.4 \times \frac{(s^2 + .2s + 3.5)}{s (s+20)}} \\
+\\
+G_m=Inf\,\mathrm{dB\,\,} \\
+P_m=74.4^{\circ}\, \mathrm{at}\, 4.96 \,\mathrm{rad/s} \\
+\omega_{BW}=4.96\, \mathrm{rad/s}\,\\
+\end{gather*}
+
+\noindent Open and closed-loop bode plots for both compensators are listed on the following pages.
+
+\begin{figure}[b!]
+\begin{center}
+\includegraphics[width=1\textwidth]{figures/simulink}
+\caption{Final simulink diagram with both compensators}
+\end{center}
+\end{figure}
 
 \clearpage
 \begin{figure}[h!]
@@ -170,42 +186,42 @@ Two initial conditions were investigated (both commands were filtered with a fil
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=.425\textheight]{figures/p2}
+\includegraphics[height=.33\textheight]{figures/p2}
 \caption{$p$ Response for Scenario 1}
 \end{center}
 \end{figure}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=.425\textheight]{figures/beta2}
-\caption{$\beta$ Response for Scenario 1}
+\includegraphics[height=.33\textheight]{figures/beta2}
+\caption{$\beta$ Response for Scenario 1 (note the scale relative to the $p$ response)}
 \end{center}
 \end{figure}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=.425\textheight]{figures/inputs2}
+\includegraphics[height=.4\textheight]{figures/inputs2}
 \caption{Command Inputs for Scenario 1}
 \end{center}
 \end{figure}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=.425\textheight]{figures/p1}
+\includegraphics[height=.4\textheight]{figures/p1}
 \caption{$p$ Response for Scenario 2}
 \end{center}
 \end{figure}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=.425\textheight]{figures/beta1}
+\includegraphics[height=.4\textheight]{figures/beta1}
 \caption{$\beta$ Response for Scenario 2}
 \end{center}
 \end{figure}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=.425\textheight]{figures/inputs1}
+\includegraphics[height=.4\textheight]{figures/inputs1}
 \caption{Command Inputs for Scenario 2}
 \end{center}
 \end{figure}
