@@ -13,6 +13,7 @@
 \usepackage{graphicx}
 \usepackage[normalem]{ulem}
 \usepackage{mathtools}
+\usepackage{rotating}
 
 \let\ph\mlplaceholder % shorter macro
 \lstMakeShortInline"
@@ -74,55 +75,57 @@ $$
          0 &         0 \end{array}\right]\vec{u}
 $$
 
-\noindent Coupling numerators can be used to detrmine input-output pairing and which loops to close in which order, and appropriate compensators can then be designed.
+\noindent Coupling numerators can be used to determine input-output pairing and which loops to close in which order, and appropriate compensators can then be designed.
 
 \clearpage
 \section{Coupling Numerators}
 
-The coupling numerators can be derived using the notes in the assignment and the HARV handout. They are
+The coupling numerators can be derived using the notes in the assignment and the ICE example in the coupling numerators handout. They are
 
 \begin{gather*}
 \begin{split}
-\Aboxed{\dfrac{p}{v_1} & =\dfrac{27.3 s (s^2 + 0.1747s + 3.453)} {(s+1.781) (s-0.001359) (s^2 + 0.09275s + 3.529)}} \\
+\Aboxed{\dfrac{p}{\delta_a} & =\dfrac{27.3 s (s^2 + 0.1747s + 3.453)} {(s+1.781) (s-0.001359) (s^2 + 0.09275s + 3.529)}} \\
 \\
-\dfrac{p}{v_2} & =\dfrac{0.576 s (s-2.885) (s+2.56)}
+\dfrac{p}{\delta_r} & =\dfrac{0.576 s (s-2.885) (s+2.56)}
                       {(s+1.781) (s-0.001359) (s^2 + 0.09275s + 3.529)} \\
 \\
-\dfrac{\beta}{v_1} & =\dfrac{-0.393 (s-6.282) (s+0.04952)}
+\dfrac{\beta}{\delta_a} & =\dfrac{-0.393 (s-6.282) (s+0.04952)}
                           {(s+1.781) (s-0.001359) (s^2 + 0.09275s + 3.529)} \\
 \\
-\dfrac{\beta}{v_2} & =\dfrac{0.011591 (s+117.4) (s+1.753) (s-0.003733)}
+\dfrac{\beta}{\delta_r} & =\dfrac{0.011591 (s+117.4) (s+1.753) (s-0.003733)}
                           {(s+1.781) (s-0.001359) (s^2 + 0.09275s + 3.529)} \\
 \end{split}
 \end{gather*}
 \begin{gather*}
 \begin{split}
-\dfrac{p}{v_1}\biggr\rvert_{\beta \rightarrow v_2}
+\dfrac{p}{\delta_a}\biggr\rvert_{\beta \rightarrow \delta_r}
              & = \dfrac{27.3 s (s+118.1)}{(s+117.4) (s+1.753) (s-0.003733)} \\
 \\
-\Aboxed{\dfrac{\beta}{v_2}\biggr\rvert_{p \rightarrow v_1}
+\Aboxed{\dfrac{\beta}{\delta_r}\biggr\rvert_{p \rightarrow \delta_a}
              & = \dfrac{0.011591 (s+118.1)}{(s^2 + 0.1747s + 3.453)}} \\
 \\
-\dfrac{p}{v_2}\biggr\rvert_{\beta \rightarrow v_1}
-             & = \dfrac{-0.80517 s (s+118.1)}{(s-6.282) (s+0.04952)} \\
-\\
-\dfrac{\beta}{v_1}\biggr\rvert_{p \rightarrow v_2}
+\dfrac{p}{\delta_r}\biggr\rvert_{\beta \rightarrow \delta_a}
              & = \dfrac{0.54936 (s+118.1)}{(s-2.885) (s+2.56)} \\
+\\
+\dfrac{\beta}{\delta_a}\biggr\rvert_{p \rightarrow \delta_r}
+             & = \dfrac{-0.80517 s (s+118.1)}{(s-6.282) (s+0.04952)} \\
 \end{split}
 \end{gather*}
 
 \noindent From these transfer functions we can:
 \begin{enumerate}
-\item rule out controlling $p$ with $v_2$ first, as there is a non-minimum phase zero (s-2.885) in the transfer function that would limit the crossover frequency to values significantly below 2.885
-\item rule out $\smash{\dfrac{p}{v_2}\biggr\rvert_{\beta \rightarrow v_1}}$ and $\smash{\dfrac{\beta}{v_1}\biggr\rvert_{p \rightarrow v_2}}$ due to the closed-loop unstable poles that would be produced
+\item rule out controlling $p$ with $\delta_r$ first, as there is a non-minimum phase zero (s-2.885) in the transfer function that would limit the crossover frequency to values significantly below 2.885
+\item rule out $\smash{\dfrac{p}{\delta_r}\biggr\rvert_{\beta \rightarrow \delta_a}}$ and $\smash{\dfrac{\beta}{\delta_a}\biggr\rvert_{p \rightarrow \delta_r}}$ due to the closed-loop unstable poles that would be produced
 \end{enumerate}
 
-\noindent This leaves only one viable option: to first close $p$ with $v_1$, then close $\beta$ with $v_2$ with the $p-v_1$ loop closed. As such, the ailerons are paired to the roll-rate, and the rudder is paired to the sideslip.
+\noindent This leaves only one viable option: to first close $p$ with $\delta_a$, then close $\beta$ with $\delta_r$ with the $p-\delta_a$ loop closed. As such, the ailerons are paired to the roll-rate, and the rudder is paired to the sideslip.
 
 \clearpage
 \section{Compensators}
-Two compensators were designed. After both loops were closed, the reported gain and phase margins, and the crossover bandwidths were noted at
+Two compensators were chosen. After both loops were closed, the reported gain and phase margins, and the crossover bandwidths were noted at
 \begin{gather*}
+\dfrac{p}{\delta_a} =\dfrac{27.3 s (s^2 + 0.1747s + 3.453)} {(s+1.781) (s-0.001359) (s^2 + 0.09275s + 3.529)} \\
+\\
 \boxed{GC_p = 0.18 \times \frac{(s+2)}{s}} \\
 \\
 G_m=Inf\,\mathrm{dB\,\,} \\
@@ -130,6 +133,8 @@ P_m=86.7^{\circ}\, \mathrm{at}\, 5.06 \,\mathrm{rad/s} \\
 \omega_{BW}=5.06\, \mathrm{rad/s}\,\\
 \end{gather*}
 \begin{gather*}
+\dfrac{\beta}{\delta_r}\biggr\rvert_{p \rightarrow \delta_a} = \dfrac{0.011591 (s+117.3) (s+4.498) (s+2.198)}{(s+4.417) (s+2.186) (s^2 + 0.1828s + 3.513)} \\
+\\
 \boxed{GC_{\beta} = 74.4 \times \frac{(s^2 + .2s + 3.5)}{s (s+20)}} \\
 \\
 G_m=Inf\,\mathrm{dB\,\,} \\
@@ -137,14 +142,14 @@ P_m=74.4^{\circ}\, \mathrm{at}\, 4.96 \,\mathrm{rad/s} \\
 \omega_{BW}=4.96\, \mathrm{rad/s}\,\\
 \end{gather*}
 
-\noindent Open and closed-loop bode plots for both compensators are listed on the following pages.
+\noindent Note that the actual value for $\dfrac{\beta}{\delta_r}\biggr\rvert_{p \rightarrow \delta_a}$ is very close to the value predicted by the coupling numerators approximation. The $GC_{\beta}$ compensator approximately cancels the Dutch-Roll mode with a numerator of $(s^2 + .2s + 3.5)$. Open and closed-loop bode plots for both compensators are listed on the following pages.
 
-\begin{figure}[b!]
+\begin{sidewaysfigure}[b!]
 \begin{center}
 \includegraphics[width=1\textwidth]{figures/simulink}
 \caption{Final simulink diagram with both compensators}
 \end{center}
-\end{figure}
+\end{sidewaysfigure}
 
 \clearpage
 \begin{figure}[h!]
@@ -186,15 +191,15 @@ Two initial conditions were investigated (both commands were filtered with a fil
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=.33\textheight]{figures/p2}
+\includegraphics[height=.32\textheight]{figures/p2}
 \caption{$p$ Response for Scenario 1}
 \end{center}
 \end{figure}
 
 \begin{figure}[h!]
 \begin{center}
-\includegraphics[height=.33\textheight]{figures/beta2}
-\caption{$\beta$ Response for Scenario 1 (note the scale relative to the $p$ response)}
+\includegraphics[height=.32\textheight]{figures/beta2}
+\caption{$\beta$ Response for Scenario 1 (note the scale relative to the $p$ response and decreasing magnitude of oscillation)}
 \end{center}
 \end{figure}
 

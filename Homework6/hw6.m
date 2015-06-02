@@ -42,20 +42,20 @@ tf2 = minreal(zpk(PE(1,2))); % p/v2
 tf3 = minreal(zpk(PE(2,1))); % beta/v1
 tf4 = minreal(zpk(PE(2,2))); % beta/v2
 
-PEI11 = PE(2, 2) / detPE;
-PEI22 = PE(1, 1) / detPE;
-PEI12 = PE(2, 1) / detPE;
-PEI21 = PE(1, 2) / detPE;
+PEI11 = +PE(2, 2) / detPE;
+PEI22 = +PE(1, 1) / detPE;
+PEI12 = -PE(1, 2) / detPE;
+PEI21 = -PE(2, 1) / detPE;
 
-Y1V1 = 1 / PEI11;
-Y2V2 = 1 / PEI22;
-Y1V2 = 1 / PEI12;
-Y2V1 = 1 / PEI21;
+Y1V1 = +1 / PEI11;
+Y2V2 = +1 / PEI22;
+Y1V2 = -1 / PEI12;
+Y2V1 = -1 / PEI21;
 
 minreal(zpk(Y1V1)); % p/v1    beta -> v2
 minreal(zpk(Y2V2)); % beta/v2 p    -> v1
-minreal(zpk(Y1V2)); % p/v2    beta -> v1
 minreal(zpk(Y2V1)); % beta/v1 p    -> v2
+minreal(zpk(Y1V2)); % p/v2    beta -> v1
 
 %% Compensators
 s = tf('s');
