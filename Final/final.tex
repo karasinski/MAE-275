@@ -120,7 +120,7 @@ $$
 
 \clearpage
 \section{Controller Design}
-Two controller were designed as part of a Stability and Command Augmentation System (SCAS) system. These controllers were designed to control the pitch-rate and airspeed loops. The resultant controllers were:
+Two controllers were designed as part of a Stability and Command Augmentation System (SCAS). These controllers were designed to control the pitch-rate and airspeed loops. The resultant controllers were:
 
 \begin{gather*}
 \dfrac{q}{\delta_e} =\dfrac{-218.46 s (s+0.4291) (s+0.1018)} {(s+100) (s^2 + 0.03945s + 0.03717) (s^2 + 0.9345s + 1.904)} \\
@@ -129,7 +129,7 @@ Two controller were designed as part of a Stability and Command Augmentation Sys
 \\
 G_m=Inf\,\mathrm{dB\,\,} \\
 P_m=86.7^{\circ}\, \mathrm{at}\, 5.06 \,\mathrm{rad/s} \\
-\omega_{BW}=5\, \mathrm{rad/s}\,\mathrm{\,(3 dB\, criterion)}\\
+\omega_{BW}=5\, \mathrm{rad/s}\,\mathrm{\,(-3 dB\, criterion)}\\
 Unstable \\
 \end{gather*}
 \begin{gather*}
@@ -142,7 +142,7 @@ Unstable \\
 \\
 G_m=18.3\,\mathrm{dB\,\,} \mathrm{at}\, 1.21 \,\mathrm{rad/s}  \\
 P_m=64.5^{\circ}\, \mathrm{at}\, 0.286 \,\mathrm{rad/s} \\
-\omega_{BW}=.497\, \mathrm{rad/s}\,\mathrm{\,(3 dB\, criterion)}\\
+\omega_{BW}=.497\, \mathrm{rad/s}\,\mathrm{\,(-3 dB\, criterion)}\\
 Stable \\
 \end{gather*}
 
@@ -190,8 +190,7 @@ Stable \\
 
 \clearpage
 \section{Human Pilot Model}
-In addition to the SCAS controllers, a pair of pilot models were used to emulate a pilot's control of altitude (through pitch attitude). The pilot models are $Y_{p_{\theta}} = K_{\theta}e^{-0.35 s} \mbox{ 1/sec}\mbox{; }Y_{p_{h}} = K_{h} \mbox{ rad/ft}$.
-$K_{\theta}$ was chosen to give a 2 rad/sec crossover frequency in the $\theta$-loop and $K_h$ to give a 0.35 rad/sec crossover frequency in the h-loop. Two gains were chosen
+In addition to the SCAS controllers, a pair of pilot models were used to emulate a pilot's control of altitude (through pitch attitude). The pilot models are $Y_{p_{\theta}} = K_{\theta}e^{-0.35 s} \mbox{ 1/sec}\mbox{; }Y_{p_{h}} = K_{h} \mbox{ rad/ft}$. $K_{\theta}$ was chosen to give a 2 rad/sec crossover frequency in the $\theta$-loop and $K_h$ to give a 0.35 rad/sec crossover frequency in the h-loop. Two gains were chosen:
 
 \begin{figure}[h!]
 $$
@@ -223,7 +222,84 @@ $$
 \clearpage
 \section{Simulation Results}
 \subsection{Step Command $h_c$}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.36\textheight]{figures/2_de}
+\caption{$\delta_e$ Response to Step Command}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.36\textheight]{figures/2_dt}
+\caption{$\delta_T$ Response to Step Command}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/2_u}
+\caption{$u$ Response to Step Command}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/2_theta}
+\caption{$\theta$ Response to Step Command}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.39\textheight]{figures/2_h}
+\caption{$h$ Response to Step Command}
+\end{center}
+\end{figure}
+
 \subsection{Burble Response}
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.39\textheight]{figures/1_de}
+\caption{$\delta_e$ Response to Burble}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/1_dt}
+\caption{$\delta_T$ Response to Burble}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/1_u}
+\caption{$u$ Response to Burble}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/1_theta}
+\caption{$\theta$ Response to Burble}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/1_gusts}
+\caption{$u_g, w_g, q_g$ Burble Inputs}
+\end{center}
+\end{figure}
+
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/1_h}
+\caption{$h$ Response to Burble}
+\end{center}
+\end{figure}
+
 
 \clearpage
 \section{Handling Qualities}
