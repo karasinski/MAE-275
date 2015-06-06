@@ -111,13 +111,25 @@ D =
 \end{bmatrix}
 $$
 
-% \begin{figure}[h]
-% \begin{center}
-% \includegraphics[width=.9\textwidth]{figures/simulink}
-% \caption{Simulink Diagram}
-% % \label{}
-% \end{center}
-% \end{figure}
+\clearpage
+\section{Handling Qualities}
+The handling qualities of the pitch-rate SCAS can be estimated using the Bandwidth/Phase-Delay boundaries explained in the handout. The bandwidth is defined as the lesser of $w_{BW_{gain}}$ and $w_{BW_{phase}}$, which is 3.09 rad/s. The phase delay, $\tau_p$ is defined
+\begin{equation*}
+\tau_p = \dfrac{\Delta \Phi 2w_{180}}{57.3 (2w_{180})} = \dfrac{244-180}{57.3 (12.8)} = 0.09 \mbox{s}
+\end{equation*}
+These values suggest Level 1 handling qualities.
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.4\textheight]{figures/handling}
+\caption{Closed-loop Bode with relevant points selected}
+\end{center}
+\end{figure}
 
+\begin{figure}[h!]
+\begin{center}
+\includegraphics[height=.2\textheight]{figures/handling_marked}
+\caption{Handling qualities plot with location marked}
+\end{center}
+\end{figure}
 
 \end{document}
